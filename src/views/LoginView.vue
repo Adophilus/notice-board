@@ -3,6 +3,7 @@
     <div class="row">
       <div class="col-12">
         <!-- Navbar -->
+        <!--
         <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid ps-2 pe-0">
             <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
@@ -50,12 +51,13 @@
             </div>
           </div>
         </nav>
+        -->
         <!-- End Navbar -->
       </div>
     </div>
   </div>
   <main class="main-content  mt-0">
-    <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1497294815431-9365093b7331?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1950&q=80');">
+    <div class="page-header align-items-start min-vh-100">
       <span class="mask bg-gradient-dark opacity-6"></span>
       <div class="container my-auto">
         <div class="row">
@@ -86,8 +88,8 @@
               <div class="card-body">
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
+                    <label class="form-label">Registration Number</label>
+                    <input type="text" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
@@ -100,10 +102,12 @@
                   <div class="text-center">
                     <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                   </div>
+                  <!--
                   <p class="mt-4 text-sm text-center">
                     Don't have an account?
                     <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
                   </p>
+                  -->
                 </form>
               </div>
             </div>
@@ -115,27 +119,9 @@
           <div class="row align-items-center justify-content-lg-between">
             <div class="col-12 col-md-6 my-auto">
               <div class="copyright text-center text-sm text-white text-lg-start">
-                © {{ fullYear }},
-                made with <i class="fa fa-heart" aria-hidden="true"></i> by
-                <a href="https://www.creative-tim.com" class="font-weight-bold text-white" target="_blank">Creative Tim</a>
-                for a better web.
+                © {{ $root.fullYear }},
+                made with <i class="fa fa-heart" aria-hidden="true"></i> by {{ $root.project.creator }}
               </div>
-            </div>
-            <div class="col-12 col-md-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-white" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-white" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white" target="_blank">License</a>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
@@ -144,27 +130,17 @@
   </main>
 </template>
 
+<style scoped>
+body {
+  background-image: url('../../public/assets/img/login-bg.jpg');
+}
+</style>
+
 <script>
-import loadScript from "vue-plugin-load-script"
+import AccountMixin from "@/mixins/AccountMixin.js"
 
 export default {
   name: "LoginView",
-  data() {
-    return {
-      fullYear: new Date().getFullYear().toString()
-    }
-  },
-  methods: {
-    login () {
-
-    }
-  },
-  mounted () {
-    loadScript("assets/core/popper.min.js")
-    loadScript("assets/core/bootstrap.min.js")
-    loadScript("assets/plugins/perfect-scrollbar.min.js")
-    loadScript("assets/plugins/smooth-scrollbar.min.js")
-    loadScript("assets/custom/init-scrollbar-plugin.js")
-  }
+  mixins: [ AccountMixin ]
 }
 </script>

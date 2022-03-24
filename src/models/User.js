@@ -1,19 +1,19 @@
 export default (db) => {
-  return {
-    name: "User",
-    type: "user",
-    constructor (firstName, lastName) {
-      const regNumber = await this.generateRegNumber()
-      this.fields = {
-        _id: `user:${this.type}:${regNumber}`,
-        firstName,
-        lastName
-        regNumber: regNumber
-      }
-    },
-    get (id) {
+  let generateRegistrationNumber = async () => {}
+  
+  return async function (firstName, lastName) {
+    let registrationNumber = await generateRegistrationNumber()
+    this.name = "User"
+    this.type = "user"
+    this.fields = {
+      _id: `user:${this.type}:${registrationNumber}`,
+      firstName,
+      lastName,
+      registrationNumber: registrationNumber
+    }
+
+    this.get = (id) => {
       const fields = [ "_id", "firstName", "lastName" ]
-      
       if (id)
         return db.find({
           selector: { _id: `user:${this.type}:${id}` },
@@ -24,10 +24,12 @@ export default (db) => {
         fields:  fields
       })
     }
-    delete () {
+
+    this.remove = () => {
       return db.remove(this.fields)
-    },
-    save () {
+    }
+
+    this.save = () => {
       return db.put(this.fields)
     }
   }
