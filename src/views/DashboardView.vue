@@ -290,34 +290,12 @@
 </template>
 
 <script>
-import { loadScript } from "vue-plugin-load-script"
-
 export default {
   name: 'DashboardView',
   data() {
     return {
       fullYear: new Date().getFullYear().toString()
     }
-  },
-  mounted () {
-    loadScript("https://kit.fontawesome.com/42d5adcbca.js")
   }
 }
 </script>
-
-<style>
-@import "/public/assets/material-dashboard/css/material-dashboard.css";
-@import "/public/assets/material-dashboard/css/nucleo-icons.css";
-@import "/public/assets/material-dashboard/css/nucleo-svg.css";
-@import "https://fonts.googleapis.com/icon?family=Material+Icons+Round";
-@import "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700";
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>

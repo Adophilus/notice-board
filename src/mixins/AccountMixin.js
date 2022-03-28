@@ -1,14 +1,18 @@
 export default {
   methods: {
-    loginUser (registrationNumber, password) {
-      const user = $root.model.User.get(registrationNumber)
-      if (user.hasPassword(passowrd)) {
+    async loginUser (registrationNumber, password) {
+      const user = await this.$root.model.User.get(registrationNumber)
+      if (user && user.hasPassword(password)) {
         // TODO: login user
       }
     },
-    createStudent (firstName, lastName, password) {
-      const user = $root.model.User({ firstName: firstName, lastName: lastName, password: password})
-      // TODO: create student
+    async createStudent (studentDetails) {
+      const user = new this.$root.model.User(studentDetails)
+      const saved = await user.save()
+      if (saved) {
+        // TODO: create student
+        console.log(saved)
+      }
     }
   }
 }
