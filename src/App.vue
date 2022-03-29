@@ -5,7 +5,6 @@
 <script>
 import PouchDB from "pouchdb"
 import { loadScript } from "vue-plugin-load-script"
-import { init } from "@/models"
 import AccountMixin from "@/mixins/AccountMixin.js"
 
 export default {
@@ -14,8 +13,6 @@ export default {
   data () {
     return {
       db: null,
-      model: null,
-      fullYear: new Date().getFullYear().toString(),
       project: {
         creator: "Valentine",
         yearCreated: 2022,
@@ -36,13 +33,6 @@ export default {
     this.db = new PouchDB("notice-board")
     await this.db.destroy()
     this.db = new PouchDB("notice-board")
-    
-    this.model = await init(this.db)
-    await this.createStudent({
-      firstName: "Adophilus",
-      lastName: "Brian",
-      password: "password"
-    })
   }
 }
 </script>
@@ -54,6 +44,7 @@ export default {
 @import "https://fonts.googleapis.com/icon?family=Material+Icons+Round";
 @import "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700";
 
+/*
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -62,4 +53,5 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+*/
 </style>

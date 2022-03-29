@@ -1,22 +1,22 @@
-import Model from "@/models/Model.js"
-import SHA256 from "crypto-js/sha256"
+import User from "@/models/User.js"
 
-class User extends Model {
-  constructor (db, { username, password }) {
+class Admin extends User {
+  constructor (db, { username, password, email }) {
     super()
     this.name = "User"
-    this.type = "user"
+    this.type = "admin"
     this.isNew = true
     this.db = db
     this.fields = {
       _id: `user:${this.type}`,
       username,
-      password
+      password,
+      email
     }
   }
 
   get (id) {
-    const fields = [ "_id", "username" ]
+    const fields = [ "_id", "username", "email" ]
 
     // get user by id
     if (id) {
@@ -33,19 +33,11 @@ class User extends Model {
     })
   }
 
-  async encryptPassword (password) {
-    return SHA256(password).toString()
-  }
-
-  async hasPassword (password) {
-    return (await this.encryptPassword(password) === this.fields.password)
-  }
-
   async save () {
     if (this.isNew) {
       const id = await this.generateId()
       this.fields._id = `${this.fields._id}:${id}`
-      this.fields.password = await this.encryptPassword(this.fields.password)
+      this.password = await this.encryptPassword(this.password)
       this.isNew = false
     }
 
@@ -53,4 +45,4 @@ class User extends Model {
   }
 }
 
-export default User
+export default Admin

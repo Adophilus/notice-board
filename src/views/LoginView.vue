@@ -66,6 +66,7 @@
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                   <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                  <!--
                   <div class="row mt-3">
                     <div class="col-2 text-center ms-auto">
                       <a class="btn btn-link px-3" href="javascript:;">
@@ -83,6 +84,7 @@
                       </a>
                     </div>
                   </div>
+                  -->
                 </div>
               </div>
               <div class="card-body">
@@ -102,30 +104,13 @@
                   <div class="text-center">
                     <button type="button" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                   </div>
-                  <!--
-                  <p class="mt-4 text-sm text-center">
-                    Don't have an account?
-                    <a href="../pages/sign-up.html" class="text-primary text-gradient font-weight-bold">Sign up</a>
-                  </p>
-                  -->
                 </form>
               </div>
             </div>
           </div>
         </div>
+        <FooterComponent />
       </div>
-      <footer class="footer position-absolute bottom-2 py-2 w-100">
-        <div class="container">
-          <div class="row align-items-center justify-content-lg-between">
-            <div class="col-12 col-md-6 my-auto">
-              <div class="copyright text-center text-sm text-white text-lg-start">
-                © {{ $root.fullYear }},
-                made with <i class="fa fa-heart" aria-hidden="true"></i> by {{ $root.project.creator }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   </main>
 </template>
@@ -138,9 +123,11 @@ body {
 
 <script>
 import AccountMixin from "@/mixins/AccountMixin.js"
+import FooterComponent from "@/components/FooterComponent"
 
 export default {
   name: "LoginView",
+  components: { FooterComponent },
   mixins: [ AccountMixin ]
 }
 </script>

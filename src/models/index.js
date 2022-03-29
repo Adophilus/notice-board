@@ -1,17 +1,24 @@
-const init = async (db) => {
-  // let model = {}
-  // let modelFiles = await readdir(".")
-  // for (let modelFile of modelFiles) {
-  //   if (modelFile === "index.js")
-  //     continue
-  //   let _model = import(modelFile)(db)
-  //   model[_model.name] = _model
-  // }
-  // return model
+/*
+function initModel (modelPath, db) {
+  const model = import(modelPath)
 
-  return {
-    User: (await import("./User.js")).default(db)
+  return function (args) {
+    return new model(db, args)
   }
+}
+*/
+
+const init = async (db) => {
+  /*
+  return {
+    Notice: initModel("./src/models/Notice.js", db),
+
+    Admin: initModel("./Admin.js", db),
+    Student: initModel("./Student.js", db),
+    User: initModel("./User.js", db)
+  }
+  */
+  return {}
 }
 
 export {
