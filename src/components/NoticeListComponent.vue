@@ -7,67 +7,12 @@
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Notice</th>
         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Content</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Created</th>
+        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Posted</th>
         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-        <td>
-          <div class="d-flex px-2 py-1">
-          <div>
-            <img src="/assets/material-dashboard/img/team-2.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user5">
-          </div>
-          <div class="d-flex flex-column justify-content-center">
-            <h6 class="mb-0 text-sm">Richard Gran</h6>
-            <p class="text-xs text-secondary mb-0">richard@creative-tim.com</p>
-          </div>
-          </div>
-        </td>
-        <td>
-          <p class="text-xs font-weight-bold mb-0">Manager</p>
-          <p class="text-xs text-secondary mb-0">Executive</p>
-        </td>
-        <td class="align-middle text-center text-sm">
-          <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-        </td>
-        <td class="align-middle text-center">
-          <span class="text-secondary text-xs font-weight-bold">04/10/21</span>
-        </td>
-        <td class="align-middle text-center">
-          <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-          Edit
-          </a>
-        </td>
-        </tr>
-        <tr>
-        <td>
-          <div class="d-flex px-2 py-1">
-          <div>
-            <img src="/assets/material-dashboard/img/team-4.jpg" class="avatar avatar-sm me-3 border-radius-lg" alt="user6">
-          </div>
-          <div class="d-flex flex-column justify-content-center">
-            <h6 class="mb-0 text-sm">Miriam Eric</h6>
-            <p class="text-xs text-secondary mb-0">miriam@creative-tim.com</p>
-          </div>
-          </div>
-        </td>
-        <td>
-          <p class="text-xs font-weight-bold mb-0">Programator</p>
-          <p class="text-xs text-secondary mb-0">Developer</p>
-        </td>
-        <td class="align-middle text-center text-sm">
-          <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-        </td>
-        <td class="align-middle text-center">
-          <span class="text-secondary text-xs font-weight-bold">14/09/20</span>
-        </td>
-        <td class="align-middle text-center">
-          <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-          Edit
-          </a>
-        </td>
-        </tr>
+        <NoticeListItemComponent v-for="notice in notices" v-model:title="notice.title" v-model:content="notice.content" v-model:status="notice.status" v-model:created="notice.created" v-model:posted="notice.posted" />
       </tbody>
       </table>
     </div>
@@ -75,7 +20,29 @@
 </template>
 
 <script>
+import NoticeListItemComponent from "@/components/NoticeListItemComponent"
+
 export default {
-  name: "NoticeListComponent"
+  name: "NoticeListComponent",
+  components: { NoticeListItemComponent },
+  data () {
+    return {
+      notices: []
+    }
+  },
+  methods: {
+    async loadNotices () {
+      this.notices.push({
+        title: "Notice 1",
+        content: "This is the first notice",
+        status: "posted",
+        created: new Date(),
+        posted: new Date()
+      })
+    }
+  },
+  async mounted () {
+    await this.loadNotices()
+  }
 }
 </script>
