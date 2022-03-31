@@ -46,13 +46,14 @@ export default {
   },
   methods: {
     async postNotice () {
-      new Notice(this.$root.db, {
+      const notice = new Notice(this.$root.db, {
         title: this.notice.title,
         content: this.notice.content,
         creator: null,
         faculty: null
-      }).post()
-
+      })
+      console.log(await notice.post())
+      
       this.notice.title = ""
       this.notice.content = ""
     }

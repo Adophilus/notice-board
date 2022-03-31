@@ -8,7 +8,7 @@
       </div>
     </td>
     <td>
-      <p class="text-xs text-secondary mb-0">{{ content }}</p>
+      <p class="text-xs text-secondary mb-0 text-truncate" style="max-width: 30ch">{{ content }}</p>
     </td>
     <td class="align-middle text-center text-sm">
       <span v-if="status === 'posted'" class="badge badge-sm bg-gradient-primary">{{ status }}</span>

@@ -1,11 +1,12 @@
 import Model from "@/models/Model.js"
 
 class Notice extends Model {
+  type = "unverified"
+  isNew = true
+  name = "Notice"
+  
   constructor (db, { title, content, creator, faculty }) {
     super()
-    this.name = "Notice"
-    this.type = "unverified"
-    this.isNew = true
     this.db = db
     this.fields = {
       _id: `notice:${this.type}`,
@@ -19,19 +20,25 @@ class Notice extends Model {
     }
   }
 
-  get (id) {
+  static get (db, { id, limit }) {
     const fields = [ "_id", "title", "content", "faculty", "creator", "created", "posted", "status" ]
 
     // get notice by id
     if (id) {
-      return this.db.find({
+      return db.find({
         selector: { _id: `notice:${this.type}:${id}` },
-        fields:  fields
+        fields: fields
       })
     }
 
+    if (limit) {
+      return db.allDocs({
+        include_docs: true,
+        limit: limit
+      })
+    }
     // get all notices
-    return this.db.find({
+    return db.find({
       selector: { _id: { $regex: `notice:${this.type}` } },
       fields:  fields
     })

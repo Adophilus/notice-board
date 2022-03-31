@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <NoticeListItemComponent v-for="notice in notices" v-bind:key="notice.title" v-model:title="notice.title" v-model:content="notice.content" v-model:status="notice.status" v-model:created="notice.created" v-model:posted="notice.posted" />
+        <NoticeListItemComponent v-for="notice in notices" v-bind:key="notice._id" v-model:title="notice.title" v-model:content="notice.content" v-model:status="notice.status" v-model:created="notice.created" v-model:posted="notice.posted" />
       </tbody>
       </table>
     </div>
@@ -21,6 +21,7 @@
 
 <script>
 import NoticeListItemComponent from "@/components/NoticeListItemComponent"
+import Notice from "@/models/Notice"
 
 export default {
   name: "NoticeListComponent",
@@ -32,22 +33,26 @@ export default {
   },
   methods: {
     async loadNotices () {
-      this.notices.push({
-        title: "Notice 1",
-        content: "This is the first notice",
-        status: "posted",
-        created: new Date(),
-        posted: new Date()
-      })
+      // this.notices.push({
+      //   title: "Notice 1",
+      //   content: "This is the first notice",
+      //   status: "posted",
+      //   created: new Date(),
+      //   posted: new Date()
+      // })
+      if (this.notices.length < 20) {
+        const notices = await Notice.get(this.$root.db, { limit: 20 })
+        // console.log(notices)
+        for (let notice of notices.rows) {
+          this.notices.push(notice.doc)
+        }
+      }
     }
   },
   async mounted () {
-    this.$root.db.changes({
-      since: "now",
-      live: true,
-      include_docs: true
-    }).on("change", function (change) {
-      console.log(change)
+    this.$root.dbWatchers.push(async (change) => {
+      // console.log(change)
+      await this.loadNotices()
     })
 
     // await this.loadNotices()

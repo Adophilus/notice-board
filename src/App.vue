@@ -16,13 +16,21 @@ export default {
         creator: "Valentine",
         yearCreated: 2022,
         title: "Notice Board"
-      }
+      },
+      dbWatchers: []
     }
   },
   async mounted () {
     this.db = new PouchDB("notice-board")
     await this.db.destroy()
     this.db = new PouchDB("notice-board")
+    this.db.changes({
+      live: true,
+      since: "now"
+      // include_docs: true
+    }).on("change", (change) => {
+      this.dbWatchers.forEach((method) => method(change))
+    })
   }
 }
 </script>
