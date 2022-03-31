@@ -10,12 +10,18 @@ class Model {
   }
 
   async save () {
-    let returnValue = this.db.put(this.fields)
-    if (returnValue) {
-      return this
+    try {
+      let returnValue = await this.db.put(this.fields)
+      if (returnValue) {
+        this.fields._rev = returnValue.rev
+        this.isNew = false
+        return this
+      }
     }
-
-    throw SaveFailError(this.name)
+    catch (e) {
+      console.log(e)
+      throw SaveFailError(this.name)
+    }
   }
 }
 

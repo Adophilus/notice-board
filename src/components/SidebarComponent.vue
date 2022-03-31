@@ -8,7 +8,7 @@
     </router-link>
     </div>
     <hr class="horizontal light mt-0 mb-2">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse w-auto h-auto ps" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
       <router-link active-class="active bg-gradient-primary" class="nav-link text-white" :to="{ name: 'DashboardView' }">

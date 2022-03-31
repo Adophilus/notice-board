@@ -1,7 +1,7 @@
 import Model from "@/models/Model.js"
 
 class Notice extends Model {
-  constructor (db, { title, message, timestamp, faculty }) {
+  constructor (db, { title, content, creator, faculty }) {
     super()
     this.name = "Notice"
     this.type = "unverified"
@@ -10,14 +10,17 @@ class Notice extends Model {
     this.fields = {
       _id: `notice:${this.type}`,
       title,
-      message,
-      timestamp,
-      faculty
+      content,
+      creator,
+      faculty,
+      created: new Date(),
+      posted: null,
+      status: this.type
     }
   }
 
   get (id) {
-    const fields = [ "_id", "username" ]
+    const fields = [ "_id", "title", "content", "faculty", "creator", "created", "posted", "status" ]
 
     // get notice by id
     if (id) {
@@ -32,6 +35,12 @@ class Notice extends Model {
       selector: { _id: { $regex: `notice:${this.type}` } },
       fields:  fields
     })
+  }
+
+  post () {
+    this.fields.posted = new Date()
+    this.fields.status = "posted"
+    return this.save()
   }
 
   async save () {

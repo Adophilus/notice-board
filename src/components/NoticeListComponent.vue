@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <NoticeListItemComponent v-for="notice in notices" v-model:title="notice.title" v-model:content="notice.content" v-model:status="notice.status" v-model:created="notice.created" v-model:posted="notice.posted" />
+        <NoticeListItemComponent v-for="notice in notices" v-bind:key="notice.title" v-model:title="notice.title" v-model:content="notice.content" v-model:status="notice.status" v-model:created="notice.created" v-model:posted="notice.posted" />
       </tbody>
       </table>
     </div>
@@ -42,7 +42,15 @@ export default {
     }
   },
   async mounted () {
-    await this.loadNotices()
+    this.$root.db.changes({
+      since: "now",
+      live: true,
+      include_docs: true
+    }).on("change", function (change) {
+      console.log(change)
+    })
+
+    // await this.loadNotices()
   }
 }
 </script>
