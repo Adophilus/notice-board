@@ -5,8 +5,18 @@ class Model {
     return Date.now()
   }
 
-  async remove () {
-    return this.db.remove(await this.get(this.id))
+  set (fields) {
+    for (let key in fields) {
+      this.fields[key] = fields[key]
+    }
+  }
+
+  static async remove (db, { _id, _rev }) {
+    if (_id && _rev){
+      return db.remove(_id, _rev)
+    }
+
+    return this.db.remove(this._id, this._rev)
   }
 
   async save () {

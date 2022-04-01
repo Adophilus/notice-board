@@ -1,51 +1,68 @@
 import Model from "@/models/Model.js"
 
 class Notice extends Model {
-  type = "unverified"
   isNew = true
   name = "Notice"
   
-  constructor (db, { title, content, creator, faculty }) {
+  constructor (db, { _id, _rev, title, content, creator, faculty }) {
     super()
     this.db = db
     this.fields = {
-      _id: `notice:${this.type}`,
+      _id: `notice`,
       title,
       content,
       creator,
       faculty,
-      created: new Date(),
+      created: Date.now(),
       posted: null,
-      status: this.type
+      status: "unverified"
+    }
+
+    if (_id) {
+      this.isNew = false
+      this.fields._id = _id
+      this.fields._rev = _rev
     }
   }
 
-  static get (db, { id, limit }) {
-    const fields = [ "_id", "title", "content", "faculty", "creator", "created", "posted", "status" ]
+  static async get (db, { id, limit }, raw = true) {
+    const fields = [ "_id", "_rev", "title", "content", "faculty", "creator", "created", "posted", "status" ]
 
-    // get notice by id
+    // GET NOTICE BY ID
+
     if (id) {
-      return db.find({
-        selector: { _id: `notice:${this.type}:${id}` },
+      let notices = await db.find({
+        selector: { _id: `notice:${id}` },
         fields: fields
       })
-    }
 
-    if (limit) {
+      if (raw)
+        return notices.docs[0]
+
+      return notices.docs.map((notice) => new Notice(db, notice))[0]
+    }
+    else if (limit) {
       return db.allDocs({
         include_docs: true,
         limit: limit
       })
     }
-    // get all notices
-    return db.find({
-      selector: { _id: { $regex: `notice:${this.type}` } },
+
+    // GET ALL NOTICES
+
+    let notices = db.find({
+      selector: { _id: { $regex: `notice:` } },
       fields:  fields
     })
+
+    if (raw)
+      return notices.docs[0]
+
+    return notices.docs.map((notice) => new Notice(notice))[0]
   }
 
   post () {
-    this.fields.posted = new Date()
+    this.fields.posted = Date.now()
     this.fields.status = "posted"
     return this.save()
   }

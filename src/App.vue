@@ -4,7 +4,10 @@
 
 <script>
 import PouchDB from "pouchdb"
+import PouchdbFind from "pouchdb-find"
 import AccountMixin from "@/mixins/AccountMixin.js"
+
+PouchDB.plugin(PouchdbFind)
 
 export default {
   name: "App",
@@ -21,8 +24,8 @@ export default {
     }
   },
   async mounted () {
-    this.db = new PouchDB("notice-board")
-    await this.db.destroy()
+    // this.db = new PouchDB("notice-board")
+    // await this.db.destroy()
     this.db = new PouchDB("notice-board")
     this.db.changes({
       live: true,

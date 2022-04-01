@@ -1,6 +1,10 @@
 <template>
   <DashboardBaseComponent :pageTitle="pageTitle">    
-    <NoticeEditorComponent v-show="showEditor" />
+    <NoticeEditorComponent
+      :_id="editor._id"
+      :title="editor.title"
+      :content="editor.content"
+      @hide-editor="showEditor = !showEditor" v-show="showEditor" />
     <div class="row">
       <div class="col-12">
         <div class="card my-4">
@@ -16,7 +20,7 @@
               </div>
             </div>
           </div>
-          <NoticeListComponent />
+          <NoticeListComponent @edit-notice="editNotice" />
         </div>
       </div>
     </div>
@@ -38,7 +42,21 @@ export default {
   data () {
     return {
       pageTitle: "Notices",
-      showEditor: false
+      showEditor: false,
+      editor: {
+        _id: null,
+        title: "",
+        content: ""
+      }
+    }
+  },
+  methods: {
+    editNotice ({ _id, title, content }) {
+      this.editor._id = _id
+      this.editor.title = title
+      this.editor.content = content
+
+      this.showEditor = true
     }
   }
 }

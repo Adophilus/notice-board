@@ -17,20 +17,27 @@
     <td class="align-middle text-center">
       <span class="text-secondary text-xs font-weight-bold">{{ moment(posted).format("DD/MM/YYYY") }}</span>
     </td>
-    <td class="align-middle text-center">
-      <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-        Edit
-      </a>
+    <td class="d-flex justify-content-center">
+      <i class="material-icons" @click="$emit('edit-notice', { _id, title, content })" role="button">edit</i>
+      <i class="material-icons" @click="Notice.remove($root.db, { _id, _rev })" role="button">close</i>
     </td>
   </tr>
 </template>
 
 <script>
 import moment from "moment"
+import Notice from "@/models/Notice.js"
 
 export default {
   name: "NoticeListItemComponent",
+  emits: [ "edit-notice" ],
   props: {
+    _id: {
+      type: String
+    },
+    _rev: {
+      type: String
+    },
     title: {
       type: String
     },
@@ -40,15 +47,17 @@ export default {
     status: {
       type: String
     },
-    created: {
-      type: Date
-    },
     posted: {
-      type: Date
+      type: Number
     }
   },
   methods: {
-    moment: moment
+    moment,
+    Notice,
+    async deleteNotice () {
+      console.warn("Not implemented")
+      // console.log(await Notice.remove({ this._id, this._rev }))
+    }
   }
 }
 </script>
