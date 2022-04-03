@@ -54,7 +54,7 @@
               </div>
             </div>
             <div class="row">
-              <button class="btn btn-icon btn-3 btn-primary" type="button">
+              <button class="btn btn-icon btn-3 btn-primary" type="submit">
                 <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                 &nbsp;
                 <span class="btn-inner--text">Save</span>
@@ -85,9 +85,9 @@ export default {
             birthDay: this.birthDay,
             faculty: this.faculty,
             department: this.department,
-            email: this.email,
+            email: this.email
           })
-          await student.save()
+          console.log(await student.save())
         }
       }
       else {
@@ -99,8 +99,7 @@ export default {
           department: this.department,
           email: this.email,
         })
-        await student.save()
-        // console.log(student)
+        console.log(await student.save())
       }
 
       this.$emit("hide-editor")

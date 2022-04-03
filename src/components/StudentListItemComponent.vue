@@ -12,13 +12,17 @@
       <p class="text-xs text-secondary mb-0 text-truncate" style="max-width: 30ch">{{ faculty }}</p>
     </td>
     <td class="align-middle text-center text-sm">
-      <span v-if="status === 'posted'" class="badge badge-sm bg-gradient-primary">{{ department }}</span>
+      <span class="text-secondary text-xs font-weight-bold">{{ department }}</span>
     </td>
     <td class="align-middle text-center">
       <span class="text-secondary text-xs font-weight-bold">{{ department }}</span>
     </td>
     <td class="d-flex justify-content-center">
-      <i class="material-icons" @click="$emit('edit-student', { _id, firstName, lastName, birthDay, faculty, department, email })" role="button">edit</i>
+      <i class="material-icons"
+        @click="$emit('edit-student', { _id, firstName, lastName, birthDay, faculty, department, email })"
+        role="button">
+         edit
+        </i>
       <i class="material-icons" @click="Student.remove($root.db, { _id, _rev })" role="button">close</i>
     </td>
   </tr>

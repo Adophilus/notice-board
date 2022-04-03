@@ -4,7 +4,8 @@
       :_id="editor._id"
       :title="editor.title"
       :content="editor.content"
-      @hide-editor="showEditor = !showEditor" v-show="showEditor" />
+      @hide-editor="showEditor = !showEditor"
+      v-show="showEditor" />
     <div class="row">
       <div class="col-12">
         <div class="card my-4">

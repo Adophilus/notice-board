@@ -8,7 +8,8 @@
       :faculty="editor.faculty"
       :department="editor.department"
       :email="editor.email"
-      @hide-editor="showEditor = !showEditor" />
+      @hide-editor="showEditor = !showEditor"
+      v-show="showEditor" />
     <div class="row">
       <div class="col-12">
         <div class="card my-4">
