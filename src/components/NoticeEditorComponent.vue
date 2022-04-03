@@ -54,6 +54,7 @@ export default {
           creator: null,
           faculty: null
         })
+        await notice.post()
       }
 
       // this.title = ""

@@ -15,8 +15,8 @@
         <NoticeListItemComponent
           v-for="notice in notices"
           v-bind:key="notice._id"
-          :_id="notice._id"
-          :_rev="notice._rev"
+          v-model:_id="notice._id"
+          v-model:_rev="notice._rev"
           v-model:title="notice.title"
           v-model:content="notice.content"
           v-model:status="notice.status"
@@ -43,17 +43,9 @@ export default {
   },
   methods: {
     async loadNotice (noticeId) {
-      // this.notices.push({
-      //   title: "Notice 1",
-      //   content: "This is the first notice",
-      //   status: "posted",
-      //   created: new Date(),
-      //   posted: new Date()
-      // })
       if (!noticeId) {
         if (this.notices.length < 20) {
           const notices = await Notice.get(this.$root.db, { limit: 20 })
-          // console.log(notices)
           for (let notice of notices.rows) {
             this.notices.push(notice.doc)
           }
@@ -80,9 +72,11 @@ export default {
       // console.log(change)
 
       if (change.deleted) {
+
         this.notices.find((notice, index) => {
-          if (notice._id === change.id) {
-            this.notices.pop(index)
+
+          if (notice && notice._id === change.id) {
+            this.notices.splice(index, 1)
           }
         })
       }
