@@ -16,6 +16,11 @@ class Model {
       this.fields._id = _id
       this.fields._rev = _rev
     }
+    this.__setProps()
+  }
+
+  __setProps () {
+    // holder for custom `this.fields` props
   }
 
   static async get (db, { id, limit }, raw = true, fields = [ "_id", "_rev" ]) {
@@ -32,26 +37,37 @@ class Model {
         return models.docs[0]
       }
 
-      return models.docs.map((model) => new this(db, model))[0]
+      return models.docs
+        .map((model) => new this(db, model))[0]
     }
     else if (limit) {
-      return db.allDocs({
-        include_docs: true,
-        limit: limit
+      let models = await db.find({
+        selector: { _id: { $regex: this.idBase } },
+        fields: fields,
+        limit
       })
+
+      if (raw) {
+        return models.docs
+      }
+
+      return models.docs
+        .map((model) => new this(db, model))[0]
     }
 
     // GET ALL MODELS
 
-    let models = db.find({
+    let models = await db.find({
       selector: { _id: { $regex: this.idBase } },
       fields: fields
     })
 
-    if (raw)
+    if (raw) {
       return models.docs[0]
+    }
 
-    return models.docs.map((model) => new this(db, model))[0]
+    return models.docs
+      .map((model) => new this(db, model))[0]
   }
 
   async generateId () {
@@ -59,9 +75,8 @@ class Model {
   }
 
   set (fields) {
-    for (let key in fields) {
-      this.fields[key] = fields[key]
-    }
+    this.fields = { ...this.fields, ...fields }
+    return this
   }
 
   static async remove (db, { _id, _rev }) {
@@ -75,12 +90,12 @@ class Model {
   async save () {
     let returnValue
 
-    if (!this.fields._id) {
+    if (this.isNew) {
       this.fields._id = `${this.constructor.idBase}${await this.generateId()}`
       returnValue = await this.db.put(this.fields)
     }
     else {
-      returnValue = await this.db.put(this.fields, { force: true })
+      returnValue = await this.db.put(this.fields)
     }
 
     this.fields._rev = returnValue.rev

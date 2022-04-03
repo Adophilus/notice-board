@@ -15,13 +15,13 @@
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">First Name</label>
-                  <input type="text" class="form-control" v-model="firstName">
+                  <input type="text" required class="form-control" v-model="firstName">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Last Name</label>
-                  <input type="text" class="form-control" v-model="lastName">
+                  <input type="text" required class="form-control" v-model="lastName">
                 </div>
               </div>
             </div>
@@ -29,13 +29,13 @@
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Date of Birth</label>
-                  <input type="text" class="form-control" v-model="birthDay">
+                  <input type="text" required class="form-control" v-model="birthDay">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Email</label>
-                  <input type="text" class="form-control" v-model="email">
+                  <input type="email" required class="form-control" v-model="email">
                 </div>
               </div>
             </div>
@@ -43,13 +43,13 @@
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Faculty</label>
-                  <input type="text" class="form-control" v-model="faculty">
+                  <input type="text" required class="form-control" v-model="faculty">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Department</label>
-                  <input type="text" class="form-control" v-model="department">
+                  <input type="text" required class="form-control" v-model="department">
                 </div>
               </div>
             </div>
@@ -73,11 +73,12 @@ import Student from "@/models/Student.js"
 export default {
   name: "StudentEditorComponent",
   emits: [ "hide-editor" ],
-  props: [ "_id", 'firstName', 'lastName', 'birthDay', 'faculty', 'department', 'email' ],
+  props: [ "_id", '_rev', 'firstName', 'lastName', 'birthDay', 'faculty', 'department', 'email' ],
   methods: {
     async saveStudent () {
       if (this._id) {
         let student = await Student.get(this.$root.db, { id: this._id.split(":")[1] }, false)
+
         if (student) {
           student.set({
             firstName: this.firstName,

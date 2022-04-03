@@ -2,7 +2,6 @@ import User from "@/models/User.js"
 
 class Admin extends User {
   static name = "Admin"
-  isNew = true
 
   constructor (db, { _id, _rev, username, password, email }) {
     super(db, { _id, _rev })

@@ -4,7 +4,6 @@ import SHA256 from "crypto-js/sha256"
 class User extends Model {
   static idBase = "user:"
   static name = "User"
-  isNew = true
 
   constructor (db, { _id, _rev, username, password }) {
     super(db, { _id, _rev })
@@ -13,6 +12,11 @@ class User extends Model {
       username,
       password
     }
+  }
+
+  __setProps () {
+    super.__setProps()
+    this.fields.role = this.role
   }
 
   static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "password" ]) {

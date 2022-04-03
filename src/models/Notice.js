@@ -3,7 +3,6 @@ import Model from "@/models/Model.js"
 class Notice extends Model {
   static idBase = "notice:"
   static name = "Notice"
-  isNew = true
 
   constructor (db, { _id, _rev, title, content, creator, faculty }) {
     super(db, { _id, _rev })

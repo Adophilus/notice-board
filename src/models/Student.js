@@ -2,11 +2,11 @@ import User from "@/models/User.js"
 
 class Student extends User {
   static name = "Student"
-  isNew = true
-
+  
   constructor (db, { _id, _rev, firstName, lastName, birthDay, faculty, department, email, password }) {
     super(db, { _id, _rev })
     this.fields = {
+      ...this.fields,
       firstName,
       lastName,
       birthDay,
@@ -14,7 +14,7 @@ class Student extends User {
       department,
       email,
       password,
-      registrationNumber: null
+      registrationNumber: 0
     }
   }
 

@@ -2,6 +2,7 @@
   <DashboardBaseComponent :pageTitle="pageTitle">    
     <StudentEditorComponent
       :_id="editor._id"
+      :_rev="editor._rev"
       :firstName="editor.firstName"
       :lastName="editor.lastName"
       :birthDay="editor.birthDay"
@@ -50,6 +51,7 @@ export default {
       showEditor: false,
       editor: {
         _id: null,
+        _rev: null,
         firstName: "",
         lastName: "",
         birthDay: "",
@@ -60,8 +62,9 @@ export default {
     }
   },
   methods: {
-    editStudent ({ _id, firstName, lastName, birthDay, faculty, department, email }) {
+    editStudent ({ _id, _rev, firstName, lastName, birthDay, faculty, department, email }) {
       this.editor._id = _id
+      this.editor._rev = _rev
       this.editor.firstName = firstName
       this.editor.lastName = lastName
       this.editor.birthDay = birthDay

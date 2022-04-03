@@ -13,11 +13,11 @@
           <div class="p-4">
             <div class="input-group input-group-dynamic mb-4">
               <label class="form-label">Title</label>
-              <input type="text" class="form-control" v-model="title">
+              <input type="text" required class="form-control" v-model="title">
             </div>
             <div class="input-group input-group-static mb-4">
               <label>Content</label>
-              <input type="text" class="form-control" v-model="content">
+              <input type="text" required class="form-control" v-model="content">
             </div>
             <button class="btn btn-icon btn-3 btn-primary" type="submit">
               <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>

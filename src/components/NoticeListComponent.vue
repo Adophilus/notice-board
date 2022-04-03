@@ -45,10 +45,8 @@ export default {
     async loadNotice (noticeId) {
       if (!noticeId) {
         if (this.notices.length < 20) {
-          const notices = await Notice.get(this.$root.db, { limit: 20 })
-          for (let notice of notices.rows) {
-            this.notices.push(notice.doc)
-          }
+          (await Notice.get(this.$root.db, { limit: 20 }))
+            .forEach((notice) => this.notices.push(notice))
         }
       }
       else {

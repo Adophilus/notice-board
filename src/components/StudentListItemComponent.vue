@@ -15,7 +15,7 @@
     </td>
     <td class="align-middle text-center">
       <i class="material-icons"
-        @click="$emit('edit-student', { _id, firstName, lastName, birthDay, faculty, department, email })"
+        @click="$emit('edit-student', { _id, _rev, firstName, lastName, birthDay, faculty, department, email })"
         role="button">
          edit
         </i>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import moment from "moment"
 import Student from "@/models/Student.js"
 
 export default {
@@ -58,7 +57,6 @@ export default {
     }
   },
   methods: {
-    moment,
     Student
   }
 }
