@@ -2,7 +2,7 @@
  <tr>
     <td>
       <div class="d-flex px-2 py-1">
-        <div class="d-flex flex-column justify-content-center">
+        <div class="d-flex flex-column justify-content-center text-truncate">
           <h6 class="mb-0 text-sm">{{ title }}</h6>
         </div>
       </div>
@@ -53,11 +53,7 @@ export default {
   },
   methods: {
     moment,
-    Notice,
-    async deleteNotice () {
-      console.warn("Not implemented")
-      // console.log(await Notice.remove({ this._id, this._rev }))
-    }
+    Notice
   }
 }
 </script>

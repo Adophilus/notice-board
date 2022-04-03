@@ -11,28 +11,28 @@
     <div class="collapse navbar-collapse w-auto h-auto ps" id="sidenav-collapse-main">
     <ul class="navbar-nav">
       <li class="nav-item">
-      <router-link active-class="active bg-gradient-primary" class="nav-link text-white" :to="{ name: 'DashboardView' }">
-        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="material-icons opacity-10">dashboard</i>
-        </div>
-        <span class="nav-link-text ms-1">Dashboard</span>
-      </router-link>
+        <router-link active-class="active bg-gradient-primary" class="nav-link text-white" :to="{ name: 'DashboardView' }">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <i class="material-icons opacity-10">dashboard</i>
+          </div>
+          <span class="nav-link-text ms-1">Dashboard</span>
+        </router-link>
       </li>
       <li class="nav-item">
-      <a class="nav-link text-white " href="../pages/tables.html">
-        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="material-icons opacity-10">table_view</i>
-        </div>
-        <span class="nav-link-text ms-1">Students</span>
-      </a>
+        <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'AdminStudentView' }">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <i class="material-icons opacity-10">table_view</i>
+          </div>
+          <span class="nav-link-text ms-1">Students</span>
+        </router-link>
       </li>
       <li class="nav-item">
-      <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'NoticeView' }">
-        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="material-icons opacity-10">receipt_long</i>
-        </div>
-        <span class="nav-link-text ms-1">Notices</span>
-      </router-link>
+        <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'NoticeView' }">
+          <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+          <i class="material-icons opacity-10">receipt_long</i>
+          </div>
+          <span class="nav-link-text ms-1">Notices</span>
+        </router-link>
       </li>
     </ul>
     </div>

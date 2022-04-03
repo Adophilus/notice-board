@@ -9,7 +9,7 @@
             </div>
           </div>
         </div>
-        <div class="card-body px-0 pb-2">
+        <form class="card-body px-0 pb-2" @submit.prevent="postNotice()">
           <div class="p-4">
             <div class="input-group input-group-dynamic mb-4">
               <label class="form-label">Title</label>
@@ -19,13 +19,13 @@
               <label>Content</label>
               <input type="text" class="form-control" v-model="content">
             </div>
-            <button class="btn btn-icon btn-3 btn-primary" type="button" @click="postNotice()">
+            <button class="btn btn-icon btn-3 btn-primary" type="submit">
               <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
               &nbsp;
               <span class="btn-inner--text">Post</span>
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -55,6 +55,7 @@ export default {
           faculty: null
         })
         await notice.post()
+        // console.log(notice)
       }
 
       // this.title = ""
