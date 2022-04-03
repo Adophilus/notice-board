@@ -1,44 +1,28 @@
 import User from "@/models/User.js"
 
 class Admin extends User {
-  constructor (db, { username, password, email }) {
-    super()
-    this.name = "User"
-    this.type = "admin"
-    this.isNew = true
-    this.db = db
+  static name = "Admin"
+  isNew = true
+
+  constructor (db, { _id, _rev, username, password, email }) {
+    super(db, { _id, _rev })
     this.fields = {
-      _id: `user:${this.type}`,
+      ...this.fields,
       username,
       password,
       email
     }
   }
 
-  get (id) {
-    const fields = [ "_id", "username", "email" ]
+  static get (db, options, raw = true) {
+    const fields = [ "_id", "_rev", "username", "password", "email" ]
 
-    // get user by id
-    if (id) {
-      return this.db.find({
-        selector: { _id: `user:${this.type}:${id}` },
-        fields:  fields
-      })
-    }
-
-    // get all users
-    return this.db.find({
-      selector: { _id: { $regex: `user:${this.type}` } },
-      fields:  fields
-    })
+    return super.get(db, options, raw, fields)
   }
 
   async save () {
     if (this.isNew) {
-      const id = await this.generateId()
-      this.fields._id = `${this.fields._id}:${id}`
-      this.password = await this.encryptPassword(this.password)
-      this.isNew = false
+      this.fields.password = await this.constructor.encryptPassword(this.fields.password)
     }
 
     return super.save()

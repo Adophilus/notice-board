@@ -2,51 +2,36 @@ import Model from "@/models/Model.js"
 import SHA256 from "crypto-js/sha256"
 
 class User extends Model {
-  constructor (db, { username, password }) {
-    super()
-    this.name = "User"
-    this.type = "user"
-    this.isNew = true
-    this.db = db
+  static idBase = "user:"
+  static name = "User"
+  isNew = true
+
+  constructor (db, { _id, _rev, username, password }) {
+    super(db, { _id, _rev })
     this.fields = {
-      _id: `user:${this.type}`,
+      ...this.fields,
       username,
       password
     }
   }
 
-  get (id) {
-    const fields = [ "_id", "username" ]
+  static get (db, options, raw = true) {
+    const fields = [ "_id", "_rev", "username", "password" ]
 
-    // get user by id
-    if (id) {
-      return this.db.find({
-        selector: { _id: `user:${this.type}:${id}` },
-        fields:  fields
-      })
-    }
-
-    // get all users
-    return this.db.find({
-      selector: { _id: { $regex: `user:${this.type}` } },
-      fields:  fields
-    })
+    return super.get(db, options, raw, fields)
   }
 
-  async encryptPassword (password) {
+  static async encryptPassword (password) {
     return SHA256(password).toString()
   }
 
   async hasPassword (password) {
-    return (await this.encryptPassword(password) === this.fields.password)
+    return (await this.constructor.encryptPassword(password) === this.fields.password)
   }
 
   async save () {
     if (this.isNew) {
-      const id = await this.generateId()
-      this.fields._id = `${this.fields._id}:${id}`
-      this.fields.password = await this.encryptPassword(this.fields.password)
-      this.isNew = false
+      this.fields.password = await this.constructor.encryptPassword(this.fields.password)
     }
 
     return super.save()
