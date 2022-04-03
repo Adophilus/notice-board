@@ -7,17 +7,13 @@
         </div>
       </div>
     </td>
-    <td>
-      <span class="text-secondary text-xs font-weight-bold">{{ birthDay }}</span>
-      <p class="text-xs text-secondary mb-0 text-truncate" style="max-width: 30ch">{{ faculty }}</p>
+    <td class="align-middle text-center text-sm">
+      <span class="text-secondary text-xs font-weight-bold text-truncate" style="max-width: 30ch">{{ faculty }}</span>
     </td>
     <td class="align-middle text-center text-sm">
       <span class="text-secondary text-xs font-weight-bold">{{ department }}</span>
     </td>
     <td class="align-middle text-center">
-      <span class="text-secondary text-xs font-weight-bold">{{ department }}</span>
-    </td>
-    <td class="d-flex justify-content-center">
       <i class="material-icons"
         @click="$emit('edit-student', { _id, firstName, lastName, birthDay, faculty, department, email })"
         role="button">

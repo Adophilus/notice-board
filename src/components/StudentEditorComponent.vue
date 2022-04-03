@@ -35,7 +35,7 @@
               <div class="col-md-6">
                 <div class="input-group input-group-dynamic mb-4">
                   <label class="form-label">Email</label>
-                  <input type="email" class="form-control" v-model="email">
+                  <input type="text" class="form-control" v-model="email">
                 </div>
               </div>
             </div>
@@ -87,8 +87,8 @@ export default {
             department: this.department,
             email: this.email
           })
-          console.log(await student.save())
         }
+        await student.save()
       }
       else {
         const student = new Student(this.$root.db, {
@@ -99,9 +99,9 @@ export default {
           department: this.department,
           email: this.email,
         })
-        console.log(await student.save())
+        await student.save()
       }
-
+      
       this.$emit("hide-editor")
     }
   }

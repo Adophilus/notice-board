@@ -22,7 +22,7 @@ class Student extends User {
     return this.generateId()
   }
 
-  get (db, options, raw = true, fields = [ "_id", "firstName", "lastName", "birthDay", "faculty", "department", "email" ]) {
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "faculty", "department", "email" ]) {
     return super.get(db, options, raw, fields)
   }
 

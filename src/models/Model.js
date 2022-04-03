@@ -1,4 +1,4 @@
-import { SaveFailError } from "@/models/Exceptions.js"
+// import { SaveFailError } from "@/models/Exceptions.js"
 
 class Model {
   static idBase = "model:"
@@ -22,15 +22,17 @@ class Model {
     // GET MODEL BY ID
 
     if (id) {
+      // console.log(`${this.idBase}${id}`)
       let models = await db.find({
         selector: { _id: `${this.idBase}${id}` },
         fields: fields
       })
 
-      if (raw)
+      if (raw) {
         return models.docs[0]
+      }
 
-      return models.docs.map((model) => new this.constructor(db, model))[0]
+      return models.docs.map((model) => new this(db, model))[0]
     }
     else if (limit) {
       return db.allDocs({
@@ -49,7 +51,7 @@ class Model {
     if (raw)
       return models.docs[0]
 
-    return models.docs.map((model) => new this.constructor(db, model))[0]
+    return models.docs.map((model) => new this(db, model))[0]
   }
 
   async generateId () {
@@ -71,22 +73,19 @@ class Model {
   }
 
   async save () {
-    if (this.isNew) {
+    let returnValue
+
+    if (!this.fields._id) {
       this.fields._id = `${this.constructor.idBase}${await this.generateId()}`
+      returnValue = await this.db.put(this.fields)
+    }
+    else {
+      returnValue = await this.db.put(this.fields, { force: true })
     }
 
-    try {
-      let returnValue = await this.db.put(this.fields)
-      if (returnValue) {
-        this.fields._rev = returnValue.rev
-        this.isNew = false
-        return this
-      }
-    }
-    catch (e) {
-      console.log(e)
-      throw SaveFailError(this.constructor.name)
-    }
+    this.fields._rev = returnValue.rev
+    this.isNew = false
+    return this
   }
 }
 

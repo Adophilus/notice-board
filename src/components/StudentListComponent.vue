@@ -5,7 +5,6 @@
       <thead>
         <tr>
           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Full Name</th>
-          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Birthday</th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Faculty</th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Department</th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Actions</th>
@@ -58,6 +57,9 @@ export default {
         let oldStudent = this.students.find((student) => student._id.split(":")[1] === studentId)
 
         if (oldStudent) {
+          // console.log(updatedStudent)
+          // console.log(oldStudent)
+          
           oldStudent.firstName = updatedStudent.firstName
           oldStudent.lastName = updatedStudent.lastName
           oldStudent.birthDay = updatedStudent.birthDay

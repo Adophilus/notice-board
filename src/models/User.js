@@ -15,9 +15,7 @@ class User extends Model {
     }
   }
 
-  static get (db, options, raw = true) {
-    const fields = [ "_id", "_rev", "username", "password" ]
-
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "password" ]) {
     return super.get(db, options, raw, fields)
   }
 

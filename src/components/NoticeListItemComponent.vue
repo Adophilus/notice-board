@@ -17,7 +17,7 @@
     <td class="align-middle text-center">
       <span class="text-secondary text-xs font-weight-bold">{{ moment(posted).format("DD/MM/YYYY") }}</span>
     </td>
-    <td class="d-flex justify-content-center">
+    <td class="align-middle text-center">
       <i class="material-icons" @click="$emit('edit-notice', { _id, title, content })" role="button">edit</i>
       <i class="material-icons" @click="Notice.remove($root.db, { _id, _rev })" role="button">close</i>
     </td>
