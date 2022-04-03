@@ -77,7 +77,7 @@ export default {
   methods: {
     async saveStudent () {
       if (this._id) {
-        let student = await Student.get(this.$root.db, { id: this._id.split(":")[1] }, false)
+        let student = await Student.get(this.$root.db, { id: this._id.split(":")[2] }, false)
 
         if (student) {
           student.set({
@@ -88,8 +88,8 @@ export default {
             department: this.department,
             email: this.email
           })
+          await student.save()
         }
-        await student.save()
       }
       else {
         const student = new Student(this.$root.db, {

@@ -1,30 +1,19 @@
 import User from "@/models/User.js"
 
 class Admin extends User {
+  static idBase = "user:admin:"
   static name = "Admin"
 
   constructor (db, { _id, _rev, username, password, email }) {
-    super(db, { _id, _rev })
+    super(db, { _id, _rev, username, password })
     this.fields = {
       ...this.fields,
-      username,
-      password,
       email
     }
   }
 
-  static get (db, options, raw = true) {
-    const fields = [ "_id", "_rev", "username", "password", "email" ]
-
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "email", "password" ]) {
     return super.get(db, options, raw, fields)
-  }
-
-  async save () {
-    if (this.isNew) {
-      this.fields.password = await this.constructor.encryptPassword(this.fields.password)
-    }
-
-    return super.save()
   }
 }
 

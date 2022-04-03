@@ -23,7 +23,11 @@ class Model {
     // holder for custom `this.fields` props
   }
 
-  static async get (db, { id, limit }, raw = true, fields = [ "_id", "_rev" ]) {
+  static async get (db, options, raw = true, fields = [ "_id", "_rev" ]) {
+    options = options ? options : {}
+
+    const { id, limit } = options
+
     // GET MODEL BY ID
 
     if (id) {
@@ -40,7 +44,8 @@ class Model {
       return models.docs
         .map((model) => new this(db, model))[0]
     }
-    else if (limit) {
+    
+    if (limit) {
       let models = await db.find({
         selector: { _id: { $regex: this.idBase } },
         fields: fields,
