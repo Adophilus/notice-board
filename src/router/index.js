@@ -1,8 +1,8 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
-import DashboardView from '@/views/DashboardView.vue'
 import LoginView from '@/views/LoginView.vue'
 import NoticeView from '@/views/NoticeView.vue'
+import AdminDashboardView from '@/views/AdminDashboardView.vue'
 import AdminStudentView from '@/views/AdminStudentView.vue'
 
 const routes = [
@@ -17,9 +17,9 @@ const routes = [
     component: LoginView
   },
   {
-    path: '/dashboard',
-    name: 'DashboardView',
-    component: DashboardView
+    path: '/admin/dashboard',
+    name: 'AdminDashboardView',
+    component: AdminDashboardView
   },
   {
     path: '/notice',
@@ -34,7 +34,7 @@ const routes = [
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes
 })
 

@@ -8,8 +8,8 @@
               <i class="material-icons opacity-10">weekend</i>
             </div>
             <div class="text-end pt-1">
-              <p class="text-sm mb-0 text-capitalize">Today's Money</p>
-              <h4 class="mb-0">$53k</h4>
+              <p class="text-sm mb-0 text-capitalize">Students</p>
+              <h4 class="mb-0">{{ numberStudents }}</h4>
             </div>
           </div>
           <hr class="dark horizontal my-0">
@@ -25,8 +25,8 @@
               <i class="material-icons opacity-10">person</i>
             </div>
             <div class="text-end pt-1">
-              <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-              <h4 class="mb-0">2,300</h4>
+              <p class="text-sm mb-0 text-capitalize">Notices</p>
+              <h4 class="mb-0">{{ numberNotices }}</h4>
             </div>
           </div>
           <hr class="dark horizontal my-0">
@@ -139,10 +139,12 @@
 import DashboardBaseComponent from "@/components/DashboardBaseComponent"
 
 export default {
-  name: 'DashboardView',
+  name: 'AdminDashboardView',
   components: { DashboardBaseComponent },
-  data () {
+  async data () {
     return {
+      numberNotices: await Notice.count(this.$root.db),
+      numberStudents: await Student.count(this.$root.db),
       pageTitle: "Dashboard"
     }
   }

@@ -23,9 +23,11 @@ class Model {
     // holder for custom `this.fields` props
   }
 
-  static async get (db, options, raw = true, fields = [ "_id", "_rev" ]) {
-    options = options ? options : {}
+  static async count (db) {
+    return (await this.get(db)).length
+  }
 
+  static async get (db, options = {}, raw = true, fields = [ "_id", "_rev" ]) {
     const { id, limit } = options
 
     // GET MODEL BY ID
@@ -68,11 +70,11 @@ class Model {
     })
 
     if (raw) {
-      return models.docs[0]
+      return models.docs
     }
 
     return models.docs
-      .map((model) => new this(db, model))[0]
+      .map((model) => new this(db, model))
   }
 
   async generateId () {

@@ -4,9 +4,9 @@
 		Navigate to
   </p>
   <div>
-    <router-link to="login">Login</router-link>
+    <router-link :to="{ name: 'LoginView' }">Login</router-link>
     <br />
-    <router-link to="dashboard">Dashboard</router-link>
+    <router-link :to="{ name: 'AdminDashboardView' }">Dashboard</router-link>
   </div>
 </template>
 
