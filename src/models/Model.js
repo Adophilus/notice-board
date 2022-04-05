@@ -28,7 +28,7 @@ class Model {
   }
 
   static async get (db, options = {}, raw = true, fields = [ "_id", "_rev" ]) {
-    const { id, limit } = options
+    const { id, limit, where } = options
 
     // GET MODEL BY ID
 
@@ -52,6 +52,20 @@ class Model {
         selector: { _id: { $regex: this.idBase } },
         fields: fields,
         limit
+      })
+
+      if (raw) {
+        return models.docs
+      }
+
+      return models.docs
+        .map((model) => new this(db, model))[0]
+    }
+
+    if (where) {
+      let models = await db.find({
+        selector: { ...where },
+        fields: fields
       })
 
       if (raw) {
@@ -86,11 +100,11 @@ class Model {
     return this
   }
 
-  static async remove (db, { _id, _rev }) {
-    if (_id && _rev){
-      return db.remove(_id, _rev)
-    }
+  static remove (db, { _id, _rev }) {
+    return db.remove(_id, _rev)
+  }
 
+  remove () {
     return this.db.remove(this.fields._id, this.fields._rev)
   }
 

@@ -5,13 +5,11 @@
 <script>
 import PouchDB from "pouchdb"
 import PouchdbFind from "pouchdb-find"
-import AccountMixin from "@/mixins/AccountMixin.js"
 
 PouchDB.plugin(PouchdbFind)
 
 export default {
   name: "App",
-  mixins: [ AccountMixin ],
   data () {
     return {
       db: null,
@@ -21,6 +19,18 @@ export default {
         title: "Notice Board"
       },
       dbWatchers: []
+    }
+  },
+  methods: {
+    checkLogin () {
+      if (localStorage.user) {
+        if (!this.$store.user) {
+          this.$store.commit("setUser", JSON.parse(localStorage.user))
+        }
+      }
+      else {
+        this.$router.push({ name: "LoginView" })
+      }
     }
   },
   async mounted () {
@@ -34,6 +44,8 @@ export default {
     }).on("change", (change) => {
       this.dbWatchers.forEach((method) => method(change))
     })
+
+    this.checkLogin()
   }
 }
 </script>

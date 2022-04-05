@@ -8,15 +8,6 @@ export default {
       if (user && user.hasPassword(password)) {
         // TODO: login user
       }
-    },
-    async createStudent (studentDetails) {
-      // const user = new this.$root.model.User(studentDetails)
-      const user = new User(this.$root.db, studentDetails)
-      const saved = await user.save()
-      if (saved) {
-        // TODO: create student
-        console.log(await user.hasPassword("password"))
-      }
     }
   }
 }
