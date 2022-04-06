@@ -1,0 +1,63 @@
+<template>
+  <DashboardBaseComponent :pageTitle="pageTitle">    
+    <DepartmentEditorComponent
+      :_id="editor._id"
+      :title="editor.name"
+      @hide-editor="showEditor = !showEditor"
+      v-show="showEditor" />
+    <div class="row">
+      <div class="col-12">
+        <div class="card my-4">
+          <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+            <div class="d-flex align-items-start bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+              <div class="me-auto">
+                <h6 class="text-white text-capitalize ps-3">Department List</h6>
+              </div>
+              <div class="pe-3">
+                <button type="button" class="btn btn-outline-white text-uppercase" @click="showEditor = !showEditor">
+                  {{ showEditor ? "Hide" : "Create" }}
+                </button>
+              </div>
+            </div>
+          </div>
+          <DepartmentListComponent @edit-department="editDepartment" />
+        </div>
+      </div>
+    </div>
+  </DashboardBaseComponent>
+</template>
+
+<script>
+import DashboardBaseComponent from "@/components/DashboardBaseComponent"
+import DepartmentEditorComponent from "@/components/DepartmentEditorComponent"
+import DepartmentListComponent from "@/components/DepartmentListComponent"
+
+export default {
+  name: "AdminDepartmentView",
+  components: {
+    DashboardBaseComponent,
+    DepartmentEditorComponent,
+    DepartmentListComponent
+  },
+  data () {
+    return {
+      pageTitle: "Departments",
+      showEditor: false,
+      editor: {
+        _id: null,
+        name: "",
+        department: ""
+      }
+    }
+  },
+  methods: {
+    editDepartment ({ _id, name, faculty }) {
+      this.editor._id = _id
+      this.editor.name = name
+      this.editor.faculty = faculty
+
+      this.showEditor = true
+    }
+  }
+}
+</script>
