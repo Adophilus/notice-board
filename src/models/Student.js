@@ -4,18 +4,18 @@ class Student extends User {
   static idBase = "user:student:"
   static name = "Student"
 
-  constructor (db, { _id, _rev, firstName, lastName, birthDay, faculty, department, email, password }) {
+  constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices }) {
     super(db, { _id, _rev })
     this.fields = {
       ...this.fields,
       firstName,
       lastName,
       birthDay,
-      faculty,
       department,
       email,
       password,
-      registrationNumber: 0
+      registrationNumber: 0,
+      notices: notices ? notices : []
     }
   }
 
@@ -23,7 +23,7 @@ class Student extends User {
     return this.generateId()
   }
 
-  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "faculty", "department", "email", "password" ]) {
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "department", "email", "password", "notices" ]) {
     return super.get(db, options, raw, fields)
   }
 

@@ -4,27 +4,57 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
-              <i class="material-icons opacity-10">person</i>
+            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">school</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">Faculties</p>
+              <h4 class="mb-0">{{ numberFaculties }}</h4>
+            </div>
+          </div>
+          <div class="card-footer p-3"></div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">business</i>
+            </div>
+            <div class="text-end pt-1">
+              <p class="text-sm mb-0 text-capitalize">Departments</p>
+              <h4 class="mb-0">{{ numberDepartments }}</h4>
+            </div>
+          </div>
+          <div class="card-footer p-3"></div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+          <div class="card-header p-3 pt-2">
+            <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">people</i>
             </div>
             <div class="text-end pt-1">
               <p class="text-sm mb-0 text-capitalize">Students</p>
               <h4 class="mb-0">{{ numberStudents }}</h4>
             </div>
           </div>
+          <div class="card-footer p-3"></div>
         </div>
       </div>
-      <div class="col-xl-3 col-sm-6">
+      <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
-              <i class="material-icons opacity-10">receipt_long</i>
+            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+              <i class="material-icons opacity-10">error_outline</i>
             </div>
             <div class="text-end pt-1">
               <p class="text-sm mb-0 text-capitalize">Notices</p>
               <h4 class="mb-0">{{ numberNotices }}</h4>
             </div>
           </div>
+          <div class="card-footer p-3"></div>
         </div>
       </div>
     </div>
@@ -37,6 +67,8 @@ import DashboardBaseComponent from "@/components/DashboardBaseComponent"
 import NoticeBoardComponent from "@/components/NoticeBoardComponent"
 import Student from "@/models/Student"
 import Notice from "@/models/Notice"
+import Faculty from "@/models/Faculty"
+import Department from "@/models/Department"
 
 export default {
   name: 'AdminDashboardView',
@@ -45,6 +77,8 @@ export default {
     return {
       numberNotices: 0,
       numberStudents: 0,
+      numberFaculties: 0,
+      numberDepartments: 0,
       pageTitle: "Dashboard"
     }
   },
@@ -55,6 +89,8 @@ export default {
   async mounted () {
     this.numberNotices = await Notice.count(this.$root.db)
     this.numberStudents = await Student.count(this.$root.db)
+    this.numberFaculties = await Faculty.count(this.$root.db)
+    this.numberDepartments = await Department.count(this.$root.db)
   }
 }
 </script>

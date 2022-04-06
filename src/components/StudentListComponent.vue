@@ -32,6 +32,8 @@
 <script>
 import StudentListItemComponent from "@/components/StudentListItemComponent"
 import Student from "@/models/Student"
+import Faculty from "@/models/Faculty"
+import Department from "@/models/Department"
 
 export default {
   name: "StudentListComponent",
@@ -47,7 +49,10 @@ export default {
       if (!studentId) {
         if (this.students.length < 20) {
           (await Student.get(this.$root.db, { limit: 20 }))
-            .forEach((student) => this.students.push(student))
+            .forEach(async (student) => {
+              student.faculty = await Faculty.get(this.$root.db, { id: (await Department.get(this.$root.db, { id: student.department })) }).name
+              this.students.push(student)
+            })
         }
       }
       else {
@@ -58,7 +63,6 @@ export default {
           oldStudent.firstName = updatedStudent.firstName
           oldStudent.lastName = updatedStudent.lastName
           oldStudent.birthDay = updatedStudent.birthDay
-          oldStudent.faculty = updatedStudent.faculty
           oldStudent.department = updatedStudent.department
           oldStudent.email = updatedStudent.email
           oldStudent._rev = updatedStudent._rev

@@ -12,7 +12,7 @@ class Admin extends User {
     }
   }
 
-  static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "email", "password" ]) {
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "password", "email" ]) {
     return super.get(db, options, raw, fields)
   }
 }

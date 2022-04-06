@@ -73,7 +73,7 @@ class Model {
       }
 
       return models.docs
-        .map((model) => new this(db, model))[0]
+        .map((model) => new this(db, model))
     }
 
     // GET ALL MODELS
@@ -106,6 +106,19 @@ class Model {
 
   remove () {
     return this.db.remove(this.fields._id, this.fields._rev)
+  }
+
+  static split (id) {
+    return id.split(this.idBase)[1]
+  }
+
+  static is (model) {
+    if (model instanceof this) {
+      return model.fields._id.startsWith(this.idBase)
+    }
+    else {
+      return model._id.startsWith(this.idBase)
+    }
   }
 
   async save () {
