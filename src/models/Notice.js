@@ -6,8 +6,12 @@ class Notice extends Model {
   static scope = {
     GLOBAL: "global"
   }
+  static status = {
+    POSTED: "posted",
+    UNVERIFIED: "unverified"
+  }
 
-  constructor (db, { _id, _rev, title, content, creator, scope }) {
+  constructor (db, { _id, _rev, title, content, creator, scope, status }) {
     super(db, { _id, _rev })
     this.fields = {
       ...this.fields,
@@ -16,8 +20,8 @@ class Notice extends Model {
       creator,
       scope: scope ? scope : this.constructor.scope.GLOBAL,
       created: Date.now(),
-      posted: null,
-      status: "unverified"
+      posted: 0,
+      status: status ? status : this.constructor.status.UNVERIFIED
     }
   }
 
@@ -27,8 +31,12 @@ class Notice extends Model {
 
   post () {
     this.fields.posted = Date.now()
-    this.fields.status = "posted"
+    this.fields.status = this.constructor.status.POSTED
     return this.save()
+  }
+
+  isPosted () {
+    return this.fields.status === this.constructor.status.POSTED
   }
 }
 

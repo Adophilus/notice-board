@@ -6,7 +6,8 @@
   <div>
     <router-link :to="{ name: 'LoginView' }">Login</router-link>
     <br />
-    <router-link :to="{ name: 'AdminDashboardView' }">Dashboard</router-link>
+    <router-link v-if="$root.isAdmin" :to="{ name: 'AdminDashboardView' }">Dashboard</router-link>
+    <router-link v-else :to="{ name: 'StudentDashboardView' }">Dashboard</router-link>
   </div>
 </template>
 

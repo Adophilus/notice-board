@@ -27,6 +27,7 @@
     "pouchdb-model": "^0.4.0",
     "sequelize": "^6.17.0",
     "vue": "^3.2.13",
+    "vue-async-computed": "^3.9.0",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "4",
     "vuex": "^4.0.0"

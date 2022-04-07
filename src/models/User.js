@@ -5,12 +5,13 @@ class User extends Model {
   static idBase = "user:"
   static name = "User"
 
-  constructor (db, { _id, _rev, username, password }) {
+  constructor (db, { _id, _rev, username, password, notices }) {
     super(db, { _id, _rev })
     this.fields = {
       ...this.fields,
       username,
-      password
+      password,
+      notices: notices ? notices : []
     }
   }
 
@@ -31,6 +32,14 @@ class User extends Model {
     return (await this.constructor.encryptPassword(password) === this.fields.password)
   }
 
+  addReadNotice (noticeId) {
+    if (!this.fields.notices.find((_noticeId) => _noticeId === noticeId)) {
+      this.fields.notices.push(noticeId)
+
+      return this.save()
+    }
+  }
+  
   async save () {
     if (this.isNew) {
       this.fields.password = await this.constructor.encryptPassword(this.fields.password)

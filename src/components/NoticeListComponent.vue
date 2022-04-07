@@ -21,7 +21,8 @@
           v-model:content="notice.content"
           v-model:status="notice.status"
           v-model:posted="notice.posted"
-          @edit-notice="(e) => $emit('edit-notice', e)" />
+          @edit-notice="(e) => $emit('edit-notice', e)"
+          @post-notice="postNotice" />
       </tbody>
       </table>
     </div>
@@ -31,6 +32,8 @@
 <script>
 import NoticeListItemComponent from "@/components/NoticeListItemComponent"
 import Notice from "@/models/Notice"
+import Admin from "@/models/Admin"
+import Student from "@/models/Student"
 
 export default {
   name: "NoticeListComponent",
@@ -46,22 +49,38 @@ export default {
       if (!noticeId) {
         if (this.notices.length < 20) {
           (await Notice.get(this.$root.db, { limit: 20 }))
+            .filter((notice) => {
+              if (Student.is(this.$store.getters.user._id)){
+                return notice.creator === this.$store.getters.user._id
+              }
+
+              return true
+            })
             .forEach((notice) => this.notices.push(notice))
         }
       }
       else {
         let updatedNotice = await Notice.get(this.$root.db, { id: noticeId })
-        let oldNotice = this.notices.find((notice) => notice._id.split(":")[1] === noticeId)
+        if (Admin.is(this.$store.getters.user._id) || updatedNotice.creator === this.$store.getters.user._id) {
+          let oldNotice = this.notices.find((notice) => Notice.split(notice._id) === noticeId)
 
-        if (oldNotice) {
-          oldNotice.title = updatedNotice.title
-          oldNotice.content = updatedNotice.content
-          oldNotice.posted = updatedNotice.posted
-          oldNotice._rev = updatedNotice._rev
+          if (oldNotice) {
+            oldNotice.title = updatedNotice.title
+            oldNotice.content = updatedNotice.content
+            oldNotice.posted = updatedNotice.posted
+            oldNotice.status = updatedNotice.status
+            oldNotice._rev = updatedNotice._rev
+          }
+          else {
+            this.notices.push(updatedNotice)
+          }
         }
-        else {
-          this.notices.push(updatedNotice)
-        }
+      }
+    },
+    async postNotice ({ _id }) {
+      let notice = new Notice(this.$root.db, this.notices.find((notice) => notice._id === _id))
+      if (notice) {
+        await notice.post()
       }
     }
   },
@@ -69,17 +88,19 @@ export default {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
-      if (change.deleted) {
+      if (Notice.is(change.id)) {
+        if (change.deleted) {
 
-        this.notices.find((notice, index) => {
+          this.notices.find((notice, index) => {
 
-          if (notice && notice._id === change.id) {
-            this.notices.splice(index, 1)
-          }
-        })
-      }
-      else {
-        await this.loadNotice(change.id.split(":")[1])
+            if (notice && notice._id === change.id) {
+              this.notices.splice(index, 1)
+            }
+          })
+        }
+        else {
+          await this.loadNotice(Notice.split(change.id))
+        }
       }
     })
 

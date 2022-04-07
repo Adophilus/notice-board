@@ -11,12 +11,17 @@
     </td>
     <td class="align-middle text-center text-sm">
       <span class="text-secondary text-xs font-weight-bold text-truncate" style="max-width: 30ch">
+        {{ code }}
+      </span>
+    </td>
+    <td class="align-middle text-center text-sm">
+      <span class="text-secondary text-xs font-weight-bold text-truncate" style="max-width: 30ch">
         {{ faculty }}
       </span>
     </td>
     <td class="align-middle text-center">
       <i class="material-icons"
-        @click="$emit('edit-department', { _id, _rev, name, faculty })"
+        @click="$emit('edit-department', { _id, _rev, name, faculty, code })"
         role="button">
          edit
         </i>
@@ -42,6 +47,9 @@ export default {
       type: String
     },
     faculty: {
+      type: String
+    },
+    code: {
       type: String
     }
   },

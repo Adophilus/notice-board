@@ -11,14 +11,15 @@
       <p class="text-xs text-secondary mb-0 text-truncate" style="max-width: 30ch">{{ content }}</p>
     </td>
     <td class="align-middle text-center text-sm">
-      <span v-if="status === 'posted'" class="badge badge-sm bg-gradient-primary">{{ status }}</span>
+      <span v-if="isPosted" class="badge badge-sm bg-gradient-primary">{{ status }}</span>
       <span v-else class="badge badge-sm bg-gradient-secondary">{{ status }}</span>
     </td>
     <td class="align-middle text-center">
-      <span class="text-secondary text-xs font-weight-bold">{{ moment(posted).format("DD/MM/YYYY") }}</span>
+      <span class="text-secondary text-xs font-weight-bold">{{ posted ? moment(posted).format("DD/MM/YYYY") : 'NO' }}</span>
     </td>
     <td class="align-middle text-center">
-      <i class="material-icons" @click="$emit('edit-notice', { _id, title, content })" role="button">edit</i>
+      <i class="material-icons" v-show="$root.isAdmin && !posted" @click="$emit('post-notice', { _id })" role="button">post_add</i>
+      <i class="material-icons" v-show="!posted || $root.isAdmin" @click="$emit('edit-notice', { _id, title, content })" role="button">edit</i>
       <i class="material-icons" @click="Notice.remove($root.db, { _id, _rev })" role="button">close</i>
     </td>
   </tr>
@@ -30,7 +31,7 @@ import Notice from "@/models/Notice.js"
 
 export default {
   name: "NoticeListItemComponent",
-  emits: [ "edit-notice" ],
+  emits: [ "edit-notice", "post-notice" ],
   props: {
     _id: {
       type: String
@@ -54,6 +55,11 @@ export default {
   methods: {
     moment,
     Notice
+  },
+  computed: {
+    isPosted () {
+      return this.status === Notice.status.POSTED
+    }
   }
 }
 </script>

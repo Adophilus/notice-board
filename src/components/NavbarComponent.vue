@@ -13,10 +13,15 @@
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item px-3 d-flex align-items-center">
             <span class="d-sm-inline d-none">
-              Welcome {{ $store.getters.user.email ? $store.getters.user.username : $store.getters.user.firstName }}
+              Welcome {{ $store.getters.user.username ? $store.getters.user.username : $store.getters.user.firstName }}
             </span>
           </li>
-          <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+          <li class="nav-item dropdown pe-2 d-flex align-items-center">
+            <router-link :to="{ name: 'NoticeView' }" class="nav-link text-body p-0" aria-expanded="false">
+              <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
+            </router-link>
+          </li>
+          <li class="nav-item ps-3 d-flex d-xl-none align-items-center">
             <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
               <div class="sidenav-toggler-inner">
                 <i class="sidenav-toggler-line"></i>
@@ -24,12 +29,7 @@
                 <i class="sidenav-toggler-line"></i>
               </div>
             </a>
-          </li>
-          <li class="nav-item dropdown pe-2 d-flex align-items-center">
-            <router-link :to="{ name: 'NoticeView' }" class="nav-link text-body p-0" aria-expanded="false">
-              <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
-            </router-link>
-          </li>
+          </li> 
         </ul>
       </div>
     </div>

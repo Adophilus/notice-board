@@ -12,15 +12,25 @@
         <form class="card-body px-0 pb-2" @submit.prevent="saveDepartment()">
           <div class="p-4">
             <div class="row">
-              <div class="input-group input-group-dynamic mb-4">
-                <label class="form-label">Name</label>
-                <input type="text" required class="form-control" v-model="name">
+              <div class="col-md-9 col-sm-12">
+                <div class="input-group input-group-static mb-4">
+                  <label>Name</label>
+                  <input type="text" required class="form-control" v-model="name">
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="input-group input-group-static mb-4">
+                  <label>Code</label>
+                  <input type="text" required class="form-control" v-model="code">
+                </div>
               </div>
             </div>
             <div class="row">
-              <div class="input-group input-group-dynamic mb-4">
-                <label class="form-label">Faculty</label>
-                <input type="text" required class="form-control" v-model="faculty">
+              <div class="input-group input-group-static mb-4">
+                <label>Faculty</label>
+                <select required class="form-control" v-model="faculty">
+                  <option v-for="_faculty in faculties" v-bind:key="_faculty.code" :value="_faculty.code">{{ _faculty.name }} ({{ _faculty.code }})</option>
+                </select>
               </div>
             </div>
             <div class="row">
@@ -38,12 +48,18 @@
 </template>
 
 <script>
+import Faculty from "@/models/Faculty.js"
 import Department from "@/models/Department.js"
 
 export default {
   name: "DepartmentEditorComponent",
+  data () {
+    return {
+      faculties: []
+    }
+  },
   emits: [ "hide-editor" ],
-  props: [ "_id", '_rev', 'name', 'faculty' ],
+  props: [ "_id", '_rev', 'name', 'faculty', 'code' ],
   methods: {
     async saveDepartment () {
       if (this._id) {
@@ -52,7 +68,8 @@ export default {
         if (department) {
           department.set({
             name: this.name,
-            faculty: this.faculty
+            faculty: this.faculty,
+            code: this.code
           })
           await department.save()
         }
@@ -60,13 +77,17 @@ export default {
       else {
         const department = new Department(this.$root.db, {
           name: this.name,
-          faculty: this.faculty
+          faculty: this.faculty,
+          code: this.code
         })
         await department.save()
       }
       
       this.$emit("hide-editor")
     }
+  },
+  async mounted () {
+    this.faculties = await Faculty.get(this.$root.db)
   }
 }
 </script>

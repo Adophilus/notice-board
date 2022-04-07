@@ -5,11 +5,30 @@
 <script>
 import PouchDB from "pouchdb"
 import PouchdbFind from "pouchdb-find"
+import Admin from "@/models/Admin"
+import Student from "@/models/Student"
 
 PouchDB.plugin(PouchdbFind)
 
 export default {
   name: "App",
+  asyncComputed: {
+    async user () {
+      let user
+      if (Admin.is(this.$store.getters.user._id)) {
+        user = await Admin.get(this.$root.db, { id: Admin.split(this.$store.getters.user._id) })
+      }
+      else {
+        user = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) })
+      }
+      return user 
+    }
+  },
+  computed: {
+    isAdmin () {
+      return Admin.is(this.$store.getters.user._id)
+    }
+  },
   data () {
     return {
       db: null,
@@ -23,12 +42,7 @@ export default {
   },
   methods: {
     checkLogin () {
-      if (localStorage.user) {
-        if (!this.$store.user) {
-          this.$store.commit("setUser", JSON.parse(localStorage.user))
-        }
-      }
-      else {
+      if (!localStorage.user) {
         this.$router.push({ name: "LoginView" })
       }
     }

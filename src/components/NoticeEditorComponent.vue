@@ -11,8 +11,8 @@
         </div>
         <form class="card-body px-0 pb-2" @submit.prevent="postNotice()">
           <div class="p-4">
-            <div class="input-group input-group-dynamic mb-4">
-              <label class="form-label">Title</label>
+            <div class="input-group input-group-static mb-4">
+              <label>Title</label>
               <input type="text" required class="form-control" v-model="title">
             </div>
             <div class="input-group input-group-static mb-4">
@@ -33,6 +33,7 @@
 
 <script>
 import Notice from "@/models/Notice.js"
+import Admin from "@/models/Admin.js"
 
 export default {
   name: "NoticeEditorComponent",
@@ -41,7 +42,7 @@ export default {
   methods: {
     async postNotice () {
       if (this._id) {
-        let notice = await Notice.get(this.$root.db, { id: this._id.split(":")[1] }, false)
+        let notice = await Notice.get(this.$root.db, { id: Notice.split(this._id) }, false)
         if (notice) {
           notice.set({ title: this.title, content: this.content })
           await notice.post()
@@ -51,10 +52,15 @@ export default {
         const notice = new Notice(this.$root.db, {
           title: this.title,
           content: this.content,
-          creator: null,
-          faculty: null
+          creator: this.$store.getters.user._id,
+          scope: null
         })
-        await notice.post()
+        if (Admin.is(this.$store.getters.user._id)) {
+          await notice.post()
+        }
+        else {
+          await notice.save()
+        }
         // console.log(notice)
       }
 

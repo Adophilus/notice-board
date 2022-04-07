@@ -6,7 +6,6 @@
       :firstName="editor.firstName"
       :lastName="editor.lastName"
       :birthDay="editor.birthDay"
-      :faculty="editor.faculty"
       :department="editor.department"
       :email="editor.email"
       @hide-editor="showEditor = !showEditor"
@@ -55,20 +54,18 @@ export default {
         firstName: "",
         lastName: "",
         birthDay: "",
-        faculty: "",
         department: "",
         email: ""
       }
     }
   },
   methods: {
-    editStudent ({ _id, _rev, firstName, lastName, birthDay, faculty, department, email }) {
+    editStudent ({ _id, _rev, firstName, lastName, birthDay, department, email }) {
       this.editor._id = _id
       this.editor._rev = _rev
       this.editor.firstName = firstName
       this.editor.lastName = lastName
       this.editor.birthDay = birthDay
-      this.editor.faculty = faculty
       this.editor.department = department
       this.editor.email = email
 

@@ -9,6 +9,7 @@ import AdminFacultyView from '@/views/AdminFacultyView.vue'
 import AdminDepartmentView from '@/views/AdminDepartmentView.vue'
 
 import StudentDashboardView from '@/views/StudentDashboardView.vue'
+import StudentProfileView from '@/views/StudentProfileView.vue'
 
 const routes = [
   {
@@ -50,6 +51,11 @@ const routes = [
     path: '/student/dashboard',
     name: 'StudentDashboardView',
     component: StudentDashboardView
+  },
+  {
+    path: '/student/profile',
+    name: 'StudentProfileView',
+    component: StudentProfileView
   }
 ]
 

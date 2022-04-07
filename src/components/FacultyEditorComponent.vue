@@ -12,9 +12,17 @@
         <form class="card-body px-0 pb-2" @submit.prevent="saveFaculty()">
           <div class="p-4">
             <div class="row">
-              <div class="input-group input-group-dynamic mb-4">
-                <label class="form-label">Name</label>
-                <input type="text" required class="form-control" v-model="name">
+              <div class="col-md-9 col-sm-12">
+                <div class="input-group input-group-static mb-4">
+                  <label>Name</label>
+                  <input type="text" required class="form-control" v-model="name">
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12">
+                <div class="input-group input-group-static mb-4">
+                  <label>Code</label>
+                  <input type="text" required class="form-control" v-model="code">
+                </div>
               </div>
             </div>
             <div class="row">
@@ -37,7 +45,7 @@ import Faculty from "@/models/Faculty.js"
 export default {
   name: "FacultyEditorComponent",
   emits: [ "hide-editor" ],
-  props: [ "_id", '_rev', 'name' ],
+  props: [ "_id", '_rev', 'name', 'code' ],
   methods: {
     async saveFaculty () {
       if (this._id) {
@@ -45,14 +53,16 @@ export default {
 
         if (faculty) {
           faculty.set({
-            name: this.name
+            name: this.name,
+            code: this.code
           })
           await faculty.save()
         }
       }
       else {
         const faculty = new Faculty(this.$root.db, {
-          name: this.name
+          name: this.name,
+          code: this.code
         })
         await faculty.save()
       }

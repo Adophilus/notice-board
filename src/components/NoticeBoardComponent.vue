@@ -53,6 +53,8 @@
 <script>
 import NoticeBoardItemComponent from "@/components/NoticeBoardItemComponent"
 import Notice from "@/models/Notice"
+import Admin from "@/models/Admin"
+import Student from "@/models/Student"
 
 export default {
   name: "NoticeBoardComponent",
@@ -71,6 +73,7 @@ export default {
       if (!noticeId) {
         if (this.notices.length < 20) {
           (await Notice.get(this.$root.db, { limit: 20 }))
+            .filter((notice) => new Notice(this.db, notice).isPosted())
             .forEach((notice) => this.notices.push(notice))
         }
       }
@@ -89,9 +92,19 @@ export default {
         }
       }
     },
-    viewNotice ({ _id }) {
+    async viewNotice ({ _id }) {
       this.showViewer = true
       this.viewer.notice = this.notices.find((notice) => notice._id === _id)
+
+      let user
+      if (Admin.is(this.$store.getters.user._id)) {
+        user = await Admin.get(this.$root.db, { id: Admin.split(this.$store.getters.user._id) })
+      }
+      else {
+        user = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) })
+      }
+
+      await user.addReadNotice(_id)
     }
   },
   async mounted () {

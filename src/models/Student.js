@@ -5,7 +5,7 @@ class Student extends User {
   static name = "Student"
 
   constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices }) {
-    super(db, { _id, _rev })
+    super(db, { _id, _rev, password, notices })
     this.fields = {
       ...this.fields,
       firstName,
@@ -13,9 +13,7 @@ class Student extends User {
       birthDay,
       department,
       email,
-      password,
-      registrationNumber: 0,
-      notices: notices ? notices : []
+      registrationNumber: 0
     }
   }
 
@@ -30,7 +28,9 @@ class Student extends User {
   async save () {
     if (this.isNew) {
       this.fields.registrationNumber = await this.generateRegistrationNumber()
-      this.fields.password = this.fields.registrationNumber
+      // TODO: uncomment this line 
+      // this.fields.password = this.fields.registrationNumber
+      this.fields.password = "password"
     }
 
     return super.save()

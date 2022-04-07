@@ -64,7 +64,7 @@ class Model {
 
     if (where) {
       let models = await db.find({
-        selector: { ...where },
+        selector: where,
         fields: fields
       })
 
@@ -115,6 +115,9 @@ class Model {
   static is (model) {
     if (model instanceof this) {
       return model.fields._id.startsWith(this.idBase)
+    }
+    else if (typeof model === "string") {
+      return model.startsWith(this.idBase)
     }
     else {
       return model._id.startsWith(this.idBase)

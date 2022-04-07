@@ -27,11 +27,11 @@
               <div class="card-body">
                 <form role="form" class="text-start" @submit.prevent="loginUser()">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Registration Number</label>
+                    <label>Registration Number</label>
                     <input type="text" required class="form-control" v-model="registrationNumber">
                   </div>
                   <div class="input-group input-group-outline mb-3">
-                    <label class="form-label">Password</label>
+                    <label>Password</label>
                     <input type="password" required class="form-control" v-model="password">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
@@ -54,7 +54,7 @@
 
 <style scoped>
 body {
-  background-image: url('../../public/assets/img/login-bg.jpg');
+  background-image: url('#/assets/img/login-bg.jpg');
 }
 </style>
 
@@ -85,7 +85,7 @@ export default {
       }
       else if (student && await student.hasPassword(this.password)) {
         this.$store.commit("setUser", student.fields)
-        this.$router.push({ name: "AdminDashboardView" })
+        this.$router.push({ name: "StudentDashboardView" })
       }
       else {
         this.loginError = true

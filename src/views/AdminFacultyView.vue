@@ -2,7 +2,8 @@
   <DashboardBaseComponent :pageTitle="pageTitle">    
     <FacultyEditorComponent
       :_id="editor._id"
-      :title="editor.name"
+      :name="editor.name"
+      :code="editor.code"
       @hide-editor="showEditor = !showEditor"
       v-show="showEditor" />
     <div class="row">
@@ -50,9 +51,10 @@ export default {
     }
   },
   methods: {
-    editFaculty ({ _id, name }) {
+    editFaculty ({ _id, name, code }) {
       this.editor._id = _id
       this.editor.name = name
+      this.editor.code = code
 
       this.showEditor = true
     }

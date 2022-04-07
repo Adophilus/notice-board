@@ -4,15 +4,16 @@ class Faculty extends Model {
   static idBase = "faculty:"
   static name = "Faculty"
 
-  constructor (db, { _id, _rev, name }) {
+  constructor (db, { _id, _rev, name, code }) {
     super(db, { _id, _rev })
     this.fields = {
       ...this.fields,
-      name
+      name,
+      code
     }
   }
 
-  static async get (db, options, raw = true, fields = [ "_id", "_rev", "name" ]) {
+  static async get (db, options, raw = true, fields = [ "_id", "_rev", "name", "code" ]) {
     return super.get(db, options, raw, fields)
   }
 }

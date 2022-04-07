@@ -8,6 +8,9 @@
             Name
           </th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            Code
+          </th>
+          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
             Departments
           </th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -17,11 +20,13 @@
       </thead>
       <tbody>
         <FacultyListItemComponent
-          v-for="faculty in facultys"
+          v-for="faculty in faculties"
           v-bind:key="faculty._id"
           :_id="faculty._id"
           :_rev="faculty._rev"
           :name="faculty.name"
+          :code="faculty.code"
+          :departments="faculty.departments"
           @edit-faculty="(e) => $emit('edit-faculty', e)" />
       </tbody>
       </table>
@@ -32,6 +37,7 @@
 <script>
 import FacultyListItemComponent from "@/components/FacultyListItemComponent"
 import Faculty from "@/models/Faculty"
+import Department from "@/models/Department"
 
 export default {
   name: "FacultyListComponent",
@@ -39,27 +45,31 @@ export default {
   emits: [ "edit-faculty" ],
   data () {
     return {
-      facultys: []
+      faculties: []
     }
   },
   methods: {
     async loadFaculty (facultyId) {
       if (!facultyId) {
-        if (this.facultys.length < 20) {
+        if (this.faculties.length < 20) {
           (await Faculty.get(this.$root.db, { limit: 20 }))
-            .forEach((faculty) => this.facultys.push(faculty))
+            .forEach(async (faculty) => {
+              faculty.departments = (await Department.get(this.$root.db, { where: { faculty: faculty.code } })).length
+              this.faculties.push(faculty)
+            })
         }
       }
       else {
         let updatedFaculty = await Faculty.get(this.$root.db, { id: facultyId })
-        let oldFaculty = this.facultys.find((faculty) => faculty._id.split(":")[2] === facultyId)
+        let oldFaculty = this.faculties.find((faculty) => Faculty.split(faculty._id) === facultyId)
 
         if (oldFaculty) {
           oldFaculty.name = updatedFaculty.name
+          oldFaculty.code = updatedFaculty.code
           oldFaculty._rev = updatedFaculty._rev
         }
         else {
-          this.facultys.push(updatedFaculty)
+          this.faculties.push(updatedFaculty)
         }
       }
     }
@@ -68,17 +78,19 @@ export default {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
-      if (change.deleted) {
+      if (Faculty.is(change.id)) {
+        if (change.deleted) {
 
-        this.facultys.find((faculty, index) => {
+          this.faculties.find((faculty, index) => {
 
-          if (faculty && faculty._id === change.id) {
-            this.facultys.splice(index, 1)
-          }
-        })
-      }
-      else {
-        await this.loadFaculty(change.id.split(":")[2])
+            if (faculty && faculty._id === change.id) {
+              this.faculties.splice(index, 1)
+            }
+          })
+        }
+        else {
+          await this.loadFaculty(Faculty.split(change.id))
+        }
       }
     })
 

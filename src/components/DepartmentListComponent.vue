@@ -8,6 +8,9 @@
             Name
           </th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+            Code
+          </th>
+          <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
             Faculty
           </th>
           <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
@@ -23,6 +26,7 @@
           :_rev="department._rev"
           :name="department.name"
           :faculty="department.faculty"
+          :code="department.code"
           @edit-department="(e) => $emit('edit-department', e)" />
       </tbody>
       </table>
@@ -53,11 +57,12 @@ export default {
       }
       else {
         let updatedDepartment = await Department.get(this.$root.db, { id: departmentId })
-        let oldDepartment = this.departments.find((department) => department._id.split(":")[2] === departmentId)
+        let oldDepartment = this.departments.find((department) => Department.split(department._id) === departmentId)
 
         if (oldDepartment) {
           oldDepartment.name = updatedDepartment.name
           oldDepartment.faculty = updatedDepartment.faculty
+          oldDepartment.code = updatedDepartment.code
           oldDepartment._rev = updatedDepartment._rev
         }
         else {
@@ -70,17 +75,19 @@ export default {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
-      if (change.deleted) {
+      if (Department.is(change.id)) {
+        if (change.deleted) {
 
-        this.departments.find((department, index) => {
+          this.departments.find((department, index) => {
 
-          if (department && department._id === change.id) {
-            this.departments.splice(index, 1)
-          }
-        })
-      }
-      else {
-        await this.loadDepartment(change.id.split(":")[2])
+            if (department && department._id === change.id) {
+              this.departments.splice(index, 1)
+            }
+          })
+        }
+        else {
+          await this.loadDepartment(Department.split(change.id))
+        }
       }
     })
 

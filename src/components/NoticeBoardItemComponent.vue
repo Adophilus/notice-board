@@ -26,10 +26,16 @@
 
 <script>
 import moment from "moment"
+import User from "@/models/User"
 
 export default {
   name: "NoticeListItemComponent",
   emits: [ "view-notice" ],
+  asyncComputed: {
+    async hasRead () {
+      return new User(this.$root.db, this.$root.user).hasReadNotice(this._id)
+    }
+  },
   props: {
     _id: {
       type: String
