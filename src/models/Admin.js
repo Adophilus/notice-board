@@ -3,6 +3,7 @@ import User from "@/models/User.js"
 class Admin extends User {
   static idBase = "user:admin:"
   static name = "Admin"
+  static unique = [ "username", "email" ]
 
   constructor (db, { _id, _rev, username, password, email, notices }) {
     super(db, { _id, _rev, username, password, notices })

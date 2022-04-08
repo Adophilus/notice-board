@@ -35,8 +35,8 @@
                 </div>
                 <div class="col-md-6">
                   <div class="input-group input-group-static mb-4">
-                    <label>Email</label>
-                    <input type="email" required class="form-control" v-model="student.fields.email">
+                    <label>Registration No.</label>
+                    <input type="email" disabled class="form-control" :value="student.fields.registrationNumber">
                   </div>
                 </div>
               </div>
@@ -57,11 +57,18 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="input-group input-group-static mb-4">
+                    <label>Email</label>
+                    <input type="email" class="form-control" v-model="student.fields.email">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="input-group input-group-static mb-4">
                     <label>Password</label>
-                    <input type="password" class="form-control" v-model="student.fields.password">
+                    <input type="password" class="form-control" v-model="password">
                   </div>
                 </div>
               </div>
+
               <div class="row">
                 <button class="btn btn-icon btn-3 btn-primary" type="submit">
                   <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
@@ -89,23 +96,23 @@ export default {
     return {
       pageTitle: "Profile",
       faculty: "",
-      student: null
+      password: "",
+      student: new Student(this.$root.db, {})
     }
   },
   methods: {
     async updateStudent () {
-      this.student.set({
-        password: await Student.encryptPassword(this.student.fields.password)
-      })
+      if (this.password) {
+        await this.student.updatePassword(this.password)
+      }
       await this.student.save()
     }
   },
   async mounted () {
     this.student = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) }, false)
-    
-    let department = await Department.get(this.$root.db, { where: { code: this.student.fields.department } })
-    if (department) {
-      this.faculty = department[0].faculty
+    let departments = await Department.get(this.$root.db, { where: { code: this.student.fields.department } })
+    if (departments) {
+      this.faculty = departments[0].faculty
     }
   }
 }

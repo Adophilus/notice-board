@@ -3,8 +3,9 @@ import User from "@/models/User.js"
 class Student extends User {
   static idBase = "user:student:"
   static name = "Student"
+  static unique = [ "username", "email" ]
 
-  constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices }) {
+  constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices, registrationNumber }) {
     super(db, { _id, _rev, password, notices })
     this.fields = {
       ...this.fields,
@@ -13,7 +14,7 @@ class Student extends User {
       birthDay,
       department,
       email,
-      registrationNumber: 0
+      registrationNumber
     }
   }
 
@@ -21,7 +22,7 @@ class Student extends User {
     return this.generateId()
   }
 
-  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "department", "email", "password", "notices" ]) {
+  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "department", "email", "password", "notices", "registrationNumber" ]) {
     return super.get(db, options, raw, fields)
   }
 

@@ -13,7 +13,7 @@
     <td>
       <div class="d-flex px-2 py-1">
         <div class="d-flex flex-column justify-content-center">
-          <span v-if="true" class="badge badge-sm bg-gradient-primary">read</span>
+          <span v-if="hasRead" class="badge badge-sm bg-gradient-primary">read</span>
           <span v-else class="badge badge-sm bg-gradient-secondary">unread</span>
         </div>
       </div>
@@ -26,16 +26,10 @@
 
 <script>
 import moment from "moment"
-import User from "@/models/User"
 
 export default {
   name: "NoticeListItemComponent",
   emits: [ "view-notice" ],
-  asyncComputed: {
-    async hasRead () {
-      return new User(this.$root.db, this.$root.user).hasReadNotice(this._id)
-    }
-  },
   props: {
     _id: {
       type: String
@@ -48,6 +42,9 @@ export default {
     },
     posted: {
       type: Number
+    },
+    hasRead: {
+      type: Boolean
     }
   },
   methods: {

@@ -40,6 +40,7 @@
                   :title="notice.title"
                   :content="notice.content"
                   :posted="notice.posted"
+                  :hasRead="notice.hasRead"
                   @view-notice="viewNotice" />
               </tbody>
             </table>
@@ -53,8 +54,8 @@
 <script>
 import NoticeBoardItemComponent from "@/components/NoticeBoardItemComponent"
 import Notice from "@/models/Notice"
+import User from "@/models/User"
 import Admin from "@/models/Admin"
-import Student from "@/models/Student"
 
 export default {
   name: "NoticeBoardComponent",
@@ -74,21 +75,27 @@ export default {
         if (this.notices.length < 20) {
           (await Notice.get(this.$root.db, { limit: 20 }))
             .filter((notice) => new Notice(this.db, notice).isPosted())
-            .forEach((notice) => this.notices.push(notice))
+            .forEach(async (notice) => {
+              let user = await User.get(this.$root.db, { id: User.split(this.$store.getters.user._id) }, false)
+              notice.hasRead = user.hasReadNotice(notice._id)
+
+              this.notices.push(notice)
+            })
         }
       }
       else {
         let updatedNotice = await Notice.get(this.$root.db, { id: noticeId })
-        let oldNotice = this.notices.find((notice) => notice._id.split(":")[1] === noticeId)
-
-        if (oldNotice) {
-          oldNotice.title = updatedNotice.title
-          oldNotice.content = updatedNotice.content
-          oldNotice.posted = updatedNotice.posted
-          oldNotice._rev = updatedNotice._rev
-        }
-        else {
-          this.notices.push(updatedNotice)
+        let oldNotice = this.notices.find((notice) => Notice.split(notice._id) === noticeId)
+        if (updatedNotice.creator === this.$store.getters.user._id || Admin.is(this.$store.getters.user._id)) {
+          if (oldNotice) {
+            oldNotice.title = updatedNotice.title
+            oldNotice.content = updatedNotice.content
+            oldNotice.posted = updatedNotice.posted
+            oldNotice._rev = updatedNotice._rev
+          }
+          else {
+            this.notices.push(updatedNotice)
+          }
         }
       }
     },
@@ -96,32 +103,30 @@ export default {
       this.showViewer = true
       this.viewer.notice = this.notices.find((notice) => notice._id === _id)
 
-      let user
-      if (Admin.is(this.$store.getters.user._id)) {
-        user = await Admin.get(this.$root.db, { id: Admin.split(this.$store.getters.user._id) })
-      }
-      else {
-        user = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) })
-      }
+      let user = await User.get(this.$root.db, { id: User.split(this.$store.getters.user._id) }, false)
 
       await user.addReadNotice(_id)
+      let notice = this.notices.find((notice) => notice._id === _id)
+      notice.hasRead = true
     }
   },
   async mounted () {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
-      if (change.deleted) {
+      if (Notice.is(change.id)) {
+        if (change.deleted) {
 
-        this.notices.find((notice, index) => {
+          this.notices.find((notice, index) => {
 
-          if (notice && notice._id === change.id) {
-            this.notices.splice(index, 1)
-          }
-        })
-      }
-      else {
-        await this.loadNotice(change.id.split(":")[1])
+            if (notice && notice._id === change.id) {
+              this.notices.splice(index, 1)
+            }
+          })
+        }
+        else {
+          await this.loadNotice(change.id.split(":")[1])
+        }
       }
     })
 

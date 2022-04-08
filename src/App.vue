@@ -12,23 +12,6 @@ PouchDB.plugin(PouchdbFind)
 
 export default {
   name: "App",
-  asyncComputed: {
-    async user () {
-      let user
-      if (Admin.is(this.$store.getters.user._id)) {
-        user = await Admin.get(this.$root.db, { id: Admin.split(this.$store.getters.user._id) })
-      }
-      else {
-        user = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) })
-      }
-      return user 
-    }
-  },
-  computed: {
-    isAdmin () {
-      return Admin.is(this.$store.getters.user._id)
-    }
-  },
   data () {
     return {
       db: null,
@@ -41,10 +24,23 @@ export default {
     }
   },
   methods: {
-    checkLogin () {
+    async checkLogin () {
       if (!localStorage.user) {
         this.$router.push({ name: "LoginView" })
       }
+
+      await this.setUser()
+    },
+    async setUser () {
+      let user
+      if (Admin.is(this.$store.getters.user._id)) {
+        user = await Admin.get(this.$root.db, { id: Admin.split(this.$store.getters.user._id) })
+      }
+      else {
+        user = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) })
+      }
+
+      this.$store.commit("setUser", user)
     }
   },
   async mounted () {
@@ -59,7 +55,7 @@ export default {
       this.dbWatchers.forEach((method) => method(change))
     })
 
-    this.checkLogin()
+    await this.checkLogin()
   }
 }
 </script>

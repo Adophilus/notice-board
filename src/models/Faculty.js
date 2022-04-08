@@ -3,6 +3,7 @@ import Model from "@/models/Model.js"
 class Faculty extends Model {
   static idBase = "faculty:"
   static name = "Faculty"
+  static unique = [ "name", "code" ]
 
   constructor (db, { _id, _rev, name, code }) {
     super(db, { _id, _rev })

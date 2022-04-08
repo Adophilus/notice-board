@@ -3,6 +3,7 @@
 class Model {
   static idBase = "model:"
   static name = "Model"
+  static unique = [ ]
   isNew = true
 
   constructor (db, { _id, _rev }) {
@@ -124,8 +125,28 @@ class Model {
     }
   }
 
+  async __checkUniqueFields () {
+    for (let uniqueField of this.constructor.unique) {
+      if (this.constructor.get(this.db, { where: { uniqueField: this.fields[uniqueField] } })) {
+        return {
+          ok: false,
+          error: `A user with a matching ${uniqueField} already exists!`
+        }
+      }
+    }
+    
+    return {
+      ok: true
+    }
+  }
+
   async save () {
     let returnValue
+    let checkUniqueFields = await this.__checkUniqueFields()
+
+    if (!checkUniqueFields.ok) {
+      return checkUniqueFields
+    }
 
     if (this.isNew) {
       this.fields._id = `${this.constructor.idBase}${await this.generateId()}`
@@ -137,7 +158,7 @@ class Model {
 
     this.fields._rev = returnValue.rev
     this.isNew = false
-    return this
+    return returnValue
   }
 }
 

@@ -10,7 +10,7 @@
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse w-auto h-auto ps" id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li v-if="!$root.isAdmin" class="nav-item">
+        <li v-if="!$store.getters.isAdmin" class="nav-item">
           <router-link active-class="active bg-gradient-primary" class="nav-link text-white" :to="{ name: 'StudentProfileView' }">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">person</i>
@@ -18,7 +18,7 @@
             <span class="nav-link-text ms-1">Profile</span>
           </router-link>
         </li>
-        <li v-if="$root.isAdmin" class="nav-item">
+        <li v-if="$store.getters.isAdmin" class="nav-item">
           <router-link active-class="active bg-gradient-primary" class="nav-link text-white" :to="{ name: 'AdminDashboardView' }">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">dashboard</i>
@@ -34,7 +34,7 @@
             <span class="nav-link-text ms-1">Dashboard</span>
           </router-link>
         </li>
-        <li v-if="$root.isAdmin" class="nav-item">
+        <li v-if="$store.getters.isAdmin" class="nav-item">
           <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'AdminStudentView' }">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">people</i>
@@ -50,7 +50,7 @@
             <span class="nav-link-text ms-1">Notices</span>
           </router-link>
         </li>
-        <li v-if="$root.isAdmin" class="nav-item">
+        <li v-if="$store.getters.isAdmin" class="nav-item">
           <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'AdminFacultyView' }">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">school</i>
@@ -58,7 +58,7 @@
             <span class="nav-link-text ms-1">Faculty</span>
           </router-link>
         </li>
-        <li v-if="$root.isAdmin" class="nav-item">
+        <li v-if="$store.getters.isAdmin" class="nav-item">
           <router-link active-class="active bg-gradient-primary" class="nav-link text-white " :to="{ name: 'AdminDepartmentView' }">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i class="material-icons opacity-10">business</i>
