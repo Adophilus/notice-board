@@ -34,7 +34,10 @@
               </div>
             </div>
             <div class="row">
-              <button class="btn btn-icon btn-3 btn-primary" type="submit">
+              <button
+                class="btn btn-icon btn-3 btn-primary"
+                type="submit"
+                data-bs-toggle="modal" data-bs-target="#modal-default">
                 <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                 &nbsp;
                 <span class="btn-inner--text">Save</span>
@@ -62,6 +65,8 @@ export default {
   props: [ "_id", '_rev', 'name', 'faculty', 'code' ],
   methods: {
     async saveDepartment () {
+      let saved
+
       if (this._id) {
         let department = await Department.get(this.$root.db, { id: Department.split(this._id) }, false)
 
@@ -71,7 +76,7 @@ export default {
             faculty: this.faculty,
             code: this.code
           })
-          await department.save()
+          saved = await department.save()
         }
       }
       else {
@@ -80,10 +85,16 @@ export default {
           faculty: this.faculty,
           code: this.code
         })
-        await department.save()
+        saved = await department.save()
       }
       
-      this.$emit("hide-editor")
+      if (saved.ok) {
+        this.$emit("hide-editor")
+        alert("Department saved!")
+      }
+      else {
+        alert(saved.error)
+      }
     }
   },
   async mounted () {

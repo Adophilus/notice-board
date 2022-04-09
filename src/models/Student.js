@@ -3,7 +3,7 @@ import User from "@/models/User.js"
 class Student extends User {
   static idBase = "user:student:"
   static name = "Student"
-  static unique = [ "username", "email" ]
+  static unique = [ "email" ]
 
   constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices, registrationNumber }) {
     super(db, { _id, _rev, password, notices })

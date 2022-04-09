@@ -87,6 +87,10 @@ export default {
     Student
   },
   async mounted () {
+    if (!this.$store.getters.isAdmin) {
+      this.$router.push({ name: "LoginView" })
+    }
+
     this.numberNotices = await Notice.count(this.$root.db)
     this.numberStudents = await Student.count(this.$root.db)
     this.numberFaculties = await Faculty.count(this.$root.db)

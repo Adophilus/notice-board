@@ -127,10 +127,16 @@ class Model {
 
   async __checkUniqueFields () {
     for (let uniqueField of this.constructor.unique) {
-      if (this.constructor.get(this.db, { where: { uniqueField: this.fields[uniqueField] } })) {
+      let _where = new Object()
+      _where[uniqueField] = this.fields[uniqueField]
+
+      let models = await this.constructor.get(this.db, { where: _where })
+      let model = models[0]
+
+      if (model && model._id !== this.fields._id) {
         return {
           ok: false,
-          error: `A user with a matching ${uniqueField} already exists!`
+          error: `A ${this.constructor.name} with a matching ${uniqueField} already exists!`
         }
       }
     }

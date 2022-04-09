@@ -71,6 +71,14 @@ export default {
 
       this.showEditor = true
     }
+  },
+  mounted () {
+    if (!this.$store.getters.isAdmin) {
+      this.$router.push({ name: "LoginView" })
+    }
+    else {
+      alert("NOTE: by default, new students have a password of 'password'")
+    }
   }
 }
 </script>

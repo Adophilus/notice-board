@@ -18,9 +18,20 @@
       <span class="text-secondary text-xs font-weight-bold">{{ posted ? moment(posted).format("DD/MM/YYYY") : 'NO' }}</span>
     </td>
     <td class="align-middle text-center">
-      <i class="material-icons" v-show="$root.isAdmin && !posted" @click="$emit('post-notice', { _id })" role="button">post_add</i>
-      <i class="material-icons" v-show="!posted || $root.isAdmin" @click="$emit('edit-notice', { _id, title, content })" role="button">edit</i>
-      <i class="material-icons" @click="Notice.remove($root.db, { _id, _rev })" role="button">close</i>
+      <i class="material-icons" v-show="$store.getters.isAdmin && !posted" @click="$emit('post-notice', { _id })" role="button">post_add</i>
+      <i
+      class="material-icons btn-tooltip"
+        v-show="!posted || $store.getters.isAdmin"
+        @click="$emit('edit-notice', { _id, title, content })"
+        role="button"
+        data-bs-toggle="tooltip"
+        data-bs-placement="top"
+        title="Edit notice"
+        data-container="body"
+        data-animation="true">
+        edit
+      </i>
+      <i class="material-icons" @click="deleteNotice()" role="button">close</i>
     </td>
   </tr>
 </template>
@@ -54,7 +65,11 @@ export default {
   },
   methods: {
     moment,
-    Notice
+    deleteNotice () {
+      if (confirm("Are you sure?")) {
+        Notice.remove(this.$root.db, { _id: this._id, _rev: this._rev })
+      }
+    }
   },
   computed: {
     isPosted () {

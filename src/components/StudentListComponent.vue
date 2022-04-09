@@ -49,12 +49,12 @@ export default {
         if (this.students.length < 20) {
           (await Student.get(this.$root.db, { limit: 20 }))
             .forEach(async (student) => {
-              let department = await Department.get(this.$root.db, {
+              let departments = await Department.get(this.$root.db, {
                 where: {
                   code: student.department
                 }
               })
-              student.faculty = department[0].faculty
+              student.faculty = departments[0].faculty
               this.students.push(student)
             })
         }
@@ -63,6 +63,13 @@ export default {
         let updatedStudent = await Student.get(this.$root.db, { id: studentId })
         let oldStudent = this.students.find((student) => student._id.split(":")[2] === studentId)
 
+        let departments = await Department.get(this.$root.db, {
+          where: {
+            code: updatedStudent.department
+          }
+        })
+        updatedStudent.faculty = departments[0].faculty
+
         if (oldStudent) {
           oldStudent.firstName = updatedStudent.firstName
           oldStudent.lastName = updatedStudent.lastName
@@ -70,6 +77,8 @@ export default {
           oldStudent.department = updatedStudent.department
           oldStudent.email = updatedStudent.email
           oldStudent._rev = updatedStudent._rev
+
+          oldStudent.faculty = updatedStudent.faculty
         }
         else {
           this.students.push(updatedStudent)

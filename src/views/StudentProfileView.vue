@@ -10,7 +10,7 @@
               </div>
             </div>
           </div>
-          <form class="card-body px-0 pb-2" @submit.prevent="updateStudent()">
+          <form class="card-body px-0 pb-2" onsubmit="return false;">
             <div class="p-4">
               <div class="row">
                 <div class="col-md-6">
@@ -70,7 +70,10 @@
               </div>
 
               <div class="row">
-                <button class="btn btn-icon btn-3 btn-primary" type="submit">
+                <button
+                  class="btn btn-icon btn-3 btn-primary"
+                  type="submit"
+                  data-bs-toggle="modal" data-bs-target="#modal-default">
                   <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
                   &nbsp;
                   <span class="btn-inner--text">Update</span>
@@ -78,6 +81,12 @@
               </div>
             </div>
           </form>
+          <ModalComponent
+            header="Update Changes?"
+            content="Are you sure you want to save?"
+            accepted-button="Save changes"
+            type="warning"
+            @accepted="updateStudent()" />
         </div>
       </div>
     </div>
@@ -86,12 +95,13 @@
 
 <script>
 import DashboardBaseComponent from "@/components/DashboardBaseComponent"
+import ModalComponent from "@/components/ModalComponent"
 import Department from "@/models/Department.js"
 import Student from "@/models/Student.js"
 
 export default {
   name: "StudentProfileView",
-  components: { DashboardBaseComponent },
+  components: { DashboardBaseComponent, ModalComponent },
   data () {
     return {
       pageTitle: "Profile",
@@ -105,10 +115,18 @@ export default {
       if (this.password) {
         await this.student.updatePassword(this.password)
       }
-      await this.student.save()
+
+      if ((await this.student.save()).ok) {
+        alert("Details Updated!")
+      }
     }
   },
   async mounted () {
+    if (this.$store.getters.isAdmin) {
+      this.$router.push({ name: "LoginView" })
+      return
+    }
+
     this.student = await Student.get(this.$root.db, { id: Student.split(this.$store.getters.user._id) }, false)
     let departments = await Department.get(this.$root.db, { where: { code: this.student.fields.department } })
     if (departments) {

@@ -48,6 +48,7 @@ export default {
   props: [ "_id", '_rev', 'name', 'code' ],
   methods: {
     async saveFaculty () {
+      let saved
       if (this._id) {
         let faculty = await Faculty.get(this.$root.db, { id: Faculty.split(this._id) }, false)
 
@@ -56,7 +57,7 @@ export default {
             name: this.name,
             code: this.code
           })
-          await faculty.save()
+          saved = await faculty.save()
         }
       }
       else {
@@ -64,10 +65,16 @@ export default {
           name: this.name,
           code: this.code
         })
-        await faculty.save()
+        saved = await faculty.save()
       }
       
-      this.$emit("hide-editor")
+      if (saved.ok) {
+        this.$emit("hide-editor")
+        alert("Faculty saved!")
+      }
+      else {
+        alert(saved.error)
+      }
     }
   }
 }

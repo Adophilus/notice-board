@@ -15,6 +15,11 @@ export default {
     return {
       pageTitle: "Dashboard"
     }
+  },
+  mounted () {
+    if (this.$store.getters.isAdmin) {
+      this.$router.push({ name: "LoginView" })
+    }
   }
 }
 </script>

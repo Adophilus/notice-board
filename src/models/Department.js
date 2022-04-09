@@ -3,7 +3,7 @@ import Faculty from "@/models/Faculty.js"
 class Department extends Faculty {
   static idBase = "department:"
   static name = "Department"
-  
+
   constructor (db, { _id, _rev, name, faculty, code }) {
     super(db, { _id, _rev, name, code })
     this.fields = {

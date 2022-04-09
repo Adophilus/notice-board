@@ -22,7 +22,8 @@
             <button class="btn btn-icon btn-3 btn-primary" type="submit">
               <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
               &nbsp;
-              <span class="btn-inner--text">Post</span>
+              <span v-if="$store.getters.isAdmin" class="btn-inner--text">Post</span>
+              <span v-else class="btn-inner--text">Create</span>
             </button>
           </div>
         </form>

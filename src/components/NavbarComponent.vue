@@ -13,7 +13,7 @@
         <ul class="navbar-nav justify-content-end">
           <li class="nav-item px-3 d-flex align-items-center">
             <span class="d-sm-inline d-none">
-              Welcome {{ $store.getters.user.username ? $store.getters.user.username : $store.getters.user.firstName }}
+              Welcome {{ $store.getters.isAdmin ? $store.getters.user.username : $store.getters.user.firstName }}
             </span>
           </li>
           <li class="nav-item dropdown pe-2 d-flex align-items-center">

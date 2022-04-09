@@ -28,8 +28,9 @@ export default {
       if (!localStorage.user) {
         this.$router.push({ name: "LoginView" })
       }
-
-      await this.setUser()
+      else {
+        await this.setUser()
+      }
     },
     async setUser () {
       let user

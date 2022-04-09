@@ -92,9 +92,11 @@ export default {
       this.departments = await Department.get(this.$root.db, { where: { faculty: this.faculty }})
     },
     async saveStudent () {
-      if (this._id) {
-        let student = await Student.get(this.$root.db, { id: Student.split(this._id) }, false)
+      let saved
+      let student
 
+      if (this._id) {
+        student = await Student.get(this.$root.db, { id: Student.split(this._id) }, false)
         if (student) {
           student.set({
             firstName: this.firstName,
@@ -103,21 +105,27 @@ export default {
             department: this.department,
             email: this.email
           })
-          await student.save()
+          saved = await student.save()
         }
       }
       else {
-        const student = new Student(this.$root.db, {
+        student = new Student(this.$root.db, {
           firstName: this.firstName,
           lastName: this.lastName,
           birthDay: this.birthDay,
           department: this.department,
           email: this.email,
         })
-        await student.save()
+        saved = await student.save()
       }
       
-      this.$emit("hide-editor")
+      if (saved.ok) {
+        this.$emit("hide-editor")
+        alert(`Student saved!`)
+      }
+      else {
+        alert(saved.error)
+      }
     }
   },
   async mounted () {

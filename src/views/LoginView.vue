@@ -12,7 +12,7 @@
                 </span>
               </span>
               <span>
-                Invalid Registration number or password!
+                Invalid Email or password!
               </span>
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -27,11 +27,11 @@
               <div class="card-body">
                 <form role="form" class="text-start" @submit.prevent="loginUser()">
                   <div class="input-group input-group-outline my-3">
-                    <label>Registration Number</label>
-                    <input type="text" required class="form-control" v-model="registrationNumber">
+                    <label class="form-label">Email</label>
+                    <input type="email" required class="form-control" v-model="email">
                   </div>
                   <div class="input-group input-group-outline mb-3">
-                    <label>Password</label>
+                    <label class="form-label">Password</label>
                     <input type="password" required class="form-control" v-model="password">
                   </div>
                   <div class="form-check form-switch d-flex align-items-center mb-3">
@@ -69,21 +69,22 @@ export default {
   data () {
     return {
       loginError: false,
-      registrationNumber: "",
+      email: "",
       password: ""
     }
   },
   methods: {
     async loginUser () {
-      let admin = await Admin.get(this.$root.db, { where: { email: this.registrationNumber } }, false)
+      let admin = await Admin.get(this.$root.db, { where: { email: this.email } }, false)
       admin = admin[0]
-      let student = await Student.get(this.$root.db, { id: this.registrationNumber }, false)
+      let student = await Student.get(this.$root.db, { where: { email: this.email } }, false)
+      student = student[0]
       
-      if (admin && await admin.hasPassword(this.password)) {
+      if (admin && Admin.is(admin.fields._id) && await admin.hasPassword(this.password)) {
         this.$store.commit("setUser", admin.fields)
         this.$router.push({ name: "AdminDashboardView" })
       }
-      else if (student && await student.hasPassword(this.password)) {
+      else if (student && Student.is(student.fields._id) && await student.hasPassword(this.password)) {
         this.$store.commit("setUser", student.fields)
         this.$router.push({ name: "StudentDashboardView" })
       }

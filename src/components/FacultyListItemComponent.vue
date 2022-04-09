@@ -25,7 +25,7 @@
         role="button">
          edit
         </i>
-      <i class="material-icons" @click="Faculty.remove($root.db, { _id, _rev })" role="button">close</i>
+      <i class="material-icons" @click="deleteFaculty()" role="button">close</i>
     </td>
   </tr>
 </template>
@@ -54,7 +54,11 @@ export default {
     }
   },
   methods: {
-    Faculty
+    deleteFaculty () {
+      if (confirm("Are you sure?")) {
+        Faculty.remove(this.$root.db, { _id: this._id, _rev: this._rev })
+      }
+    }
   }
 }
 </script>

@@ -61,6 +61,11 @@ export default {
 
       this.showEditor = true
     }
+  },
+  mounted () {
+    if (!this.$store.getters.isAdmin) {
+      this.$router.push({ name: "LoginView" })
+    }
   }
 }
 </script>
