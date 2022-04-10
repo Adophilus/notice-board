@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "browser": {
     "fs": false,
@@ -28,7 +30,6 @@
     "sequelize": "^6.17.0",
     "vue": "^3.2.13",
     "vue-async-computed": "^3.9.0",
-    "vue-js-modal": "^2.0.1",
     "vue-plugin-load-script": "^2.1.1",
     "vue-router": "4",
     "vuex": "^4.0.0"

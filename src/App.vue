@@ -44,6 +44,9 @@ export default {
       this.$store.commit("setUser", user)
     }
   },
+  created () {
+    document.title = "Notice Board"
+  },
   async mounted () {
     // this.db = new PouchDB("notice-board")
     // await this.db.destroy()
