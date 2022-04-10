@@ -24,6 +24,11 @@ export default {
     }
   },
   methods: {
+    async checkInstallation () {
+      if (!((await Admin.get(this.$root.db)).length)) {
+        new Admin({ username: "admin", password: "admin", email: "admin@mail.com" }).save()
+      }
+    },
     async checkLogin () {
       if (!localStorage.user) {
         this.$router.push({ name: "LoginView" })
@@ -59,6 +64,7 @@ export default {
       this.dbWatchers.forEach((method) => method(change))
     })
 
+    await this.checkInstallation()
     await this.checkLogin()
   }
 }

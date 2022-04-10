@@ -90,17 +90,19 @@ export default {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
-      if (change.deleted) {
+      if (Student.is(change.id)) {
+        if (change.deleted) {
 
-        this.students.find((student, index) => {
+          this.students.find((student, index) => {
 
-          if (student && student._id === change.id) {
-            this.students.splice(index, 1)
-          }
-        })
-      }
-      else {
-        await this.loadStudent(change.id.split(":")[2])
+            if (student && student._id === change.id) {
+              this.students.splice(index, 1)
+            }
+          })
+        }
+        else {
+          await this.loadStudent(change.id.split(":")[2])
+        }
       }
     })
 
