@@ -26,7 +26,7 @@ export default {
   methods: {
     async checkInstallation () {
       if (!((await Admin.get(this.$root.db)).length)) {
-        new Admin(this.$root.db, { username: "admin", password: "admin", email: "admin@mail.com" }).save()
+        new Admin(this.$root.db, { username: "admin", password: "93u8d9ehdu9fh", email: "admin@mail.com" }).save()
       }
     },
     async checkLogin () {
@@ -50,7 +50,7 @@ export default {
     }
   },
   created () {
-    document.title = "Notice Board"
+    document.title = this.project.title
   },
   async mounted () {
     // this.db = new PouchDB("notice-board")
