@@ -15,13 +15,13 @@
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>First Name</label>
-                  <input type="text" required class="form-control" v-model="firstName">
+                  <input type="text" required class="form-control" v-model="localFirstName">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>Last Name</label>
-                  <input type="text" required class="form-control" v-model="lastName">
+                  <input type="text" required class="form-control" v-model="localLastName">
                 </div>
               </div>
             </div>
@@ -29,13 +29,13 @@
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>Date of Birth</label>
-                  <input type="text" required class="form-control" v-model="birthDay">
+                  <input type="text" required class="form-control" v-model="localBirthDay">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>Email</label>
-                  <input type="email" required class="form-control" v-model="email">
+                  <input type="email" required class="form-control" v-model="localEmail">
                 </div>
               </div>
             </div>
@@ -43,7 +43,7 @@
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>Faculty</label>
-                  <select @click="getDepartments()" required class="form-control" v-model="faculty">
+                  <select @click="getDepartments()" required class="form-control" v-model="localFaculty">
                     <option v-for="_faculty in faculties" v-bind:key="_faculty.code" :value="_faculty.code">{{ _faculty.name }} ({{ _faculty.code }})</option>
                   </select>
                 </div>
@@ -51,7 +51,7 @@
               <div class="col-md-6">
                 <div class="input-group input-group-static mb-4">
                   <label>Department</label>
-                  <select required class="form-control" v-model="department">
+                  <select required class="form-control" v-model="localDepartment">
                     <option v-for="_department in departments" v-bind:key="_department.code" :value="_department.code">{{ _department.name }} ({{ _department.code }})</option>
                   </select>
                 </div>
@@ -84,12 +84,18 @@ export default {
     return {
       faculty: "",
       faculties: [],
-      departments: []
+      departments: [],
+      localFirstName: this.firstName, 
+      localLastName: this.lastName, 
+      localBirthDay: this.birthDay, 
+      localEmail: this.email, 
+      localFaculty: this.faculty, 
+      localDepartment: this.department
     }
   },
   methods: {
     async getDepartments () {
-      this.departments = await Department.get(this.$root.db, { where: { faculty: this.faculty }})
+      this.departments = await Department.get(this.$root.db, { where: { faculty: this.localFaculty }})
     },
     async saveStudent () {
       let saved
@@ -99,22 +105,22 @@ export default {
         student = await Student.get(this.$root.db, { id: Student.split(this._id) }, false)
         if (student) {
           student.set({
-            firstName: this.firstName,
-            lastName: this.lastName,
-            birthDay: this.birthDay,
-            department: this.department,
-            email: this.email
+            firstName: this.localFirstName,
+            lastName: this.localLastName,
+            birthDay: this.localBirthDay,
+            department: this.localDepartment,
+            email: this.localEmail
           })
           saved = await student.save()
         }
       }
       else {
         student = new Student(this.$root.db, {
-          firstName: this.firstName,
-          lastName: this.lastName,
-          birthDay: this.birthDay,
-          department: this.department,
-          email: this.email,
+          firstName: this.localFirstName,
+          lastName: this.localLastName,
+          birthDay: this.localBirthDay,
+          department: this.localDepartment,
+          email: this.localEmail
         })
         saved = await student.save()
       }

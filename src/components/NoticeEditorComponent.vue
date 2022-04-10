@@ -13,11 +13,11 @@
           <div class="p-4">
             <div class="input-group input-group-static mb-4">
               <label>Title</label>
-              <input type="text" required class="form-control" v-model="title">
+              <input type="text" required class="form-control" v-model="localTitle">
             </div>
             <div class="input-group input-group-static mb-4">
               <label>Content</label>
-              <input type="text" required class="form-control" v-model="content">
+              <input type="text" required class="form-control" v-model="localContent">
             </div>
             <button class="btn btn-icon btn-3 btn-primary" type="submit">
               <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
@@ -40,19 +40,28 @@ export default {
   name: "NoticeEditorComponent",
   emits: [ "hide-editor" ],
   props: [ "_id", 'title', 'content' ],
+  data () {
+    return {
+      localTitle: this.title,
+      localContent: this.content
+    }
+  },
   methods: {
     async postNotice () {
       if (this._id) {
         let notice = await Notice.get(this.$root.db, { id: Notice.split(this._id) }, false)
         if (notice) {
-          notice.set({ title: this.title, content: this.content })
+          notice.set({
+            title: this.localTitle,
+            content: this.localContent
+          })
           await notice.post()
         }
       }
       else {
         const notice = new Notice(this.$root.db, {
-          title: this.title,
-          content: this.content,
+          title: this.localTitle,
+          content: this.localContent,
           creator: this.$store.getters.user._id,
           scope: null
         })

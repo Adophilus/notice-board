@@ -15,13 +15,13 @@
               <div class="col-md-9 col-sm-12">
                 <div class="input-group input-group-static mb-4">
                   <label>Name</label>
-                  <input type="text" required class="form-control" v-model="name">
+                  <input type="text" required class="form-control" v-model="localCode">
                 </div>
               </div>
               <div class="col-md-3 col-sm-12">
                 <div class="input-group input-group-static mb-4">
                   <label>Code</label>
-                  <input type="text" required class="form-control" v-model="code">
+                  <input type="text" required class="form-control" v-model="localName">
                 </div>
               </div>
             </div>
@@ -46,6 +46,12 @@ export default {
   name: "FacultyEditorComponent",
   emits: [ "hide-editor" ],
   props: [ "_id", '_rev', 'name', 'code' ],
+  data () {
+    return {
+      localName: this.name,
+      localCode: this.code
+    }
+  },
   methods: {
     async saveFaculty () {
       let saved
@@ -54,16 +60,16 @@ export default {
 
         if (faculty) {
           faculty.set({
-            name: this.name,
-            code: this.code
+            name: this.localName,
+            code: this.localCode
           })
           saved = await faculty.save()
         }
       }
       else {
         const faculty = new Faculty(this.$root.db, {
-          name: this.name,
-          code: this.code
+          name: this.localName,
+          code: this.localCode
         })
         saved = await faculty.save()
       }

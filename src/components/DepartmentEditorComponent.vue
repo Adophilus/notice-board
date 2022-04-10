@@ -15,20 +15,20 @@
               <div class="col-md-9 col-sm-12">
                 <div class="input-group input-group-static mb-4">
                   <label>Name</label>
-                  <input type="text" required class="form-control" v-model="name">
+                  <input type="text" required class="form-control" v-model="localName">
                 </div>
               </div>
               <div class="col-md-3 col-sm-12">
                 <div class="input-group input-group-static mb-4">
                   <label>Code</label>
-                  <input type="text" required class="form-control" v-model="code">
+                  <input type="text" required class="form-control" v-model="localCode">
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="input-group input-group-static mb-4">
                 <label>Faculty</label>
-                <select required class="form-control" v-model="faculty">
+                <select required class="form-control" v-model="localFaculty">
                   <option v-for="_faculty in faculties" v-bind:key="_faculty.code" :value="_faculty.code">{{ _faculty.name }} ({{ _faculty.code }})</option>
                 </select>
               </div>
@@ -58,7 +58,10 @@ export default {
   name: "DepartmentEditorComponent",
   data () {
     return {
-      faculties: []
+      faculties: [],
+      localName: this.name,
+      localFaculty: this.faculty,
+      localCode: this.code
     }
   },
   emits: [ "hide-editor" ],
@@ -72,18 +75,18 @@ export default {
 
         if (department) {
           department.set({
-            name: this.name,
-            faculty: this.faculty,
-            code: this.code
+            name: this.localName,
+            faculty: this.localFaculty,
+            code: this.localCode
           })
           saved = await department.save()
         }
       }
       else {
         const department = new Department(this.$root.db, {
-          name: this.name,
-          faculty: this.faculty,
-          code: this.code
+          name: this.localName,
+          faculty: this.localFaculty,
+          code: this.localCode
         })
         saved = await department.save()
       }
