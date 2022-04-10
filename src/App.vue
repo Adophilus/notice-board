@@ -26,7 +26,7 @@ export default {
   methods: {
     async checkInstallation () {
       if (!((await Admin.get(this.$root.db)).length)) {
-        new Admin({ username: "admin", password: "admin", email: "admin@mail.com" }).save()
+        new Admin(this.$root.db, { username: "admin", password: "admin", email: "admin@mail.com" }).save()
       }
     },
     async checkLogin () {
