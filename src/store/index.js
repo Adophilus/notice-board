@@ -19,7 +19,7 @@ export default createStore({
   mutations: {
     setUser (state, user) {
       state.user = user
-      localStorage.user = JSON.stringify(user)
+      localStorage.setItem("user", JSON.stringify(user))
       state.isAdmin = Admin.is(user._id)
     },
     unsetUser (state) {
