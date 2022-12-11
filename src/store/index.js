@@ -3,7 +3,10 @@ import Admin from '@/models/Admin'
 
 export default createStore({
   state() {
-    const user = JSON.parse(localStorage.user)
+    const localstorageUser = localStorage.getItem('user')
+    let user = null
+    if (localstorageUser)
+      user = JSON.parse(localstorageUser)
     return {
       user,
       isAdmin: user == null ? false : Admin.is(user._id)
