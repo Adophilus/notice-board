@@ -60,7 +60,7 @@ export default {
     async loadDepartment(departmentId) {
       if (!departmentId) {
         if (this.departments.length < 20) {
-          ;(await Department.get(this.$root.db, { limit: 20 })).forEach(
+          (await Department.get(this.$root.db, { limit: 20 })).forEach(
             (department) => this.departments.push(department)
           )
         }
