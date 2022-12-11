@@ -25,7 +25,6 @@ export default {
   methods: {
     async checkInstallation() {
       const admins = await Admin.get(this.$root.db)
-      console.log(admins)
       if (admins.length === 0) {
         const admin = new Admin(this.$root.db, {
           username: 'admin',
