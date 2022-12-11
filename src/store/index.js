@@ -1,34 +1,33 @@
 import { createStore } from 'vuex'
-import Admin from "@/models/Admin"
+import Admin from '@/models/Admin'
 
 export default createStore({
-  state () {
+  state() {
+    const user = JSON.parse(localStorage.user)
     return {
-      user: null,
-      isAdmin: false
+      user,
+      isAdmin: user == null ? false : Admin.is(user._id)
     }
   },
   getters: {
-    isAdmin (state) {
+    isAdmin(state) {
       return state.isAdmin
     },
-    user () {
-      return JSON.parse(localStorage.user)
+    user(state) {
+      return state.user
     }
   },
   mutations: {
-    setUser (state, user) {
+    setUser(state, user) {
       state.user = user
-      localStorage.setItem("user", JSON.stringify(user))
+      localStorage.setItem('user', JSON.stringify(user))
       state.isAdmin = Admin.is(user._id)
     },
-    unsetUser (state) {
-      state.user = undefined
+    unsetUser(state) {
+      state.user = null
       localStorage.removeItem('user')
     }
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })
