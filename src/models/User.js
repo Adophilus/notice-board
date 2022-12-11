@@ -27,7 +27,6 @@ class User extends Model {
 
   static async encryptPassword(password) {
     // return SHA256(password).toString()
-    console.log(`Password: '${password}'`)
     return password
   }
 
