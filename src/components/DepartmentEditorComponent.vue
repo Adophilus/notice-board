@@ -51,8 +51,8 @@
 </template>
 
 <script>
-import Faculty from "@/models/Faculty.js"
-import Department from "@/models/Department.js"
+import Faculty from "@/models/Faculty"
+import Department from "@/models/Department"
 
 export default {
   name: "DepartmentEditorComponent",

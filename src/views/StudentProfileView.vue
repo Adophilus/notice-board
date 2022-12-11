@@ -94,10 +94,10 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent"
-import ModalComponent from "@/components/ModalComponent"
-import Department from "@/models/Department.js"
-import Student from "@/models/Student.js"
+import DashboardBaseComponent from "@/components/DashboardBaseComponent.vue"
+import ModalComponent from "@/components/ModalComponent.vue"
+import Department from "@/models/Department"
+import Student from "@/models/Student"
 
 export default {
   name: "StudentProfileView",

@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Department from "@/models/Department.js"
+import Department from "@/models/Department"
 
 export default {
   name: "DepartmentListItemComponent",

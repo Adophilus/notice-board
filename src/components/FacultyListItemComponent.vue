@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import Faculty from "@/models/Faculty.js"
+import Faculty from "@/models/Faculty"
 
 export default {
   name: "FacultyListItemComponent",

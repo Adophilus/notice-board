@@ -5,20 +5,20 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent"
-import NoticeBoardComponent from "@/components/NoticeBoardComponent"
+import DashboardBaseComponent from '@/components/DashboardBaseComponent.vue'
+import NoticeBoardComponent from '@/components/NoticeBoardComponent.vue'
 
 export default {
   name: 'StudentDashboardView',
   components: { DashboardBaseComponent, NoticeBoardComponent },
-  data () {
+  data() {
     return {
-      pageTitle: "Dashboard"
+      pageTitle: 'Dashboard'
     }
   },
-  mounted () {
+  mounted() {
     if (this.$store.getters.isAdmin) {
-      this.$router.push({ name: "LoginView" })
+      this.$router.push({ name: 'LoginView' })
     }
   }
 }

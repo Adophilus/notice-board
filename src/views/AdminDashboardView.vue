@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent"
-import NoticeBoardComponent from "@/components/NoticeBoardComponent"
+import DashboardBaseComponent from "@/components/DashboardBaseComponent.vue"
+import NoticeBoardComponent from "@/components/NoticeBoardComponent.vue"
 import Student from "@/models/Student"
 import Notice from "@/models/Notice"
 import Faculty from "@/models/Faculty"

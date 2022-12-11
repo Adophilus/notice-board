@@ -1,11 +1,11 @@
-import User from "@/models/User.js"
+import User from "@/models/User"
 
 class Student extends User {
   static idBase = "user:student:"
   static name = "Student"
-  static unique = [ "email" ]
+  static unique = ["email"]
 
-  constructor (db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices, registrationNumber }) {
+  constructor(db, { _id, _rev, firstName, lastName, birthDay, department, email, password, notices, registrationNumber }) {
     super(db, { _id, _rev, password, notices })
     this.fields = {
       ...this.fields,
@@ -18,15 +18,15 @@ class Student extends User {
     }
   }
 
-  generateRegistrationNumber () {
+  generateRegistrationNumber() {
     return this.generateId()
   }
 
-  static get (db, options, raw = true, fields = [ "_id", "_rev", "firstName", "lastName", "birthDay", "department", "email", "password", "notices", "registrationNumber" ]) {
+  static get(db, options, raw = true, fields = ["_id", "_rev", "firstName", "lastName", "birthDay", "department", "email", "password", "notices", "registrationNumber"]) {
     return super.get(db, options, raw, fields)
   }
 
-  async save () {
+  async save() {
     if (this.isNew) {
       this.fields.registrationNumber = await this.generateRegistrationNumber()
       // TODO: uncomment this line 

@@ -3,7 +3,9 @@
     <div class="col-12">
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-          <div class="d-flex align-items-start bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+          <div
+            class="d-flex align-items-start bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+          >
             <div class="ps-3" v-show="showViewer" @click="showViewer = false">
               <span class="material-icons text-white" role="button">
                 arrow_back_ios
@@ -13,7 +15,11 @@
               <h6 class="text-white text-capitalize ps-3">Notice Board</h6>
             </div>
             <div class="pe-3">
-              <button type="button" class="btn btn-outline-white text-uppercase" v-show="false">
+              <button
+                type="button"
+                class="btn btn-outline-white text-uppercase"
+                v-show="false"
+              >
                 Filter
               </button>
             </div>
@@ -41,7 +47,8 @@
                   :content="notice.content"
                   :posted="notice.posted"
                   :hasRead="notice.hasRead"
-                  @view-notice="viewNotice" />
+                  @view-notice="viewNotice"
+                />
               </tbody>
             </table>
           </div>
@@ -52,15 +59,15 @@
 </template>
 
 <script>
-import NoticeBoardItemComponent from "@/components/NoticeBoardItemComponent"
-import Notice from "@/models/Notice"
-import User from "@/models/User"
-import Admin from "@/models/Admin"
+import NoticeBoardItemComponent from '@/components/NoticeBoardItemComponent.vue'
+import Notice from '@/models/Notice'
+import User from '@/models/User'
+import Admin from '@/models/Admin'
 
 export default {
-  name: "NoticeBoardComponent",
+  name: 'NoticeBoardComponent',
   components: { NoticeBoardItemComponent },
-  data () {
+  data() {
     return {
       showViewer: false,
       viewer: {
@@ -70,62 +77,70 @@ export default {
     }
   },
   methods: {
-    async loadNotice (noticeId) {
+    async loadNotice(noticeId) {
       if (!noticeId) {
         if (this.notices.length < 20) {
-          (await Notice.get(this.$root.db, { limit: 20 }))
+          ;(await Notice.get(this.$root.db, { limit: 20 }))
             .filter((notice) => new Notice(this.db, notice).isPosted())
             .forEach(async (notice) => {
-              let user = await User.get(this.$root.db, { id: User.split(this.$store.getters.user._id) }, false)
+              let user = await User.get(
+                this.$root.db,
+                { id: User.split(this.$store.getters.user._id) },
+                false
+              )
               notice.hasRead = user.hasReadNotice(notice._id)
 
               this.notices.push(notice)
             })
         }
-      }
-      else {
+      } else {
         let updatedNotice = await Notice.get(this.$root.db, { id: noticeId })
-        let oldNotice = this.notices.find((notice) => Notice.split(notice._id) === noticeId)
-        if (updatedNotice.creator === this.$store.getters.user._id || Admin.is(this.$store.getters.user._id)) {
+        let oldNotice = this.notices.find(
+          (notice) => Notice.split(notice._id) === noticeId
+        )
+        if (
+          updatedNotice.creator === this.$store.getters.user._id ||
+          Admin.is(this.$store.getters.user._id)
+        ) {
           if (oldNotice) {
             oldNotice.title = updatedNotice.title
             oldNotice.content = updatedNotice.content
             oldNotice.posted = updatedNotice.posted
             oldNotice._rev = updatedNotice._rev
-          }
-          else {
+          } else {
             this.notices.push(updatedNotice)
           }
         }
       }
     },
-    async viewNotice ({ _id }) {
+    async viewNotice({ _id }) {
       this.showViewer = true
       this.viewer.notice = this.notices.find((notice) => notice._id === _id)
 
-      let user = await User.get(this.$root.db, { id: User.split(this.$store.getters.user._id) }, false)
+      let user = await User.get(
+        this.$root.db,
+        { id: User.split(this.$store.getters.user._id) },
+        false
+      )
 
       await user.addReadNotice(_id)
       let notice = this.notices.find((notice) => notice._id === _id)
       notice.hasRead = true
     }
   },
-  async mounted () {
+  async mounted() {
     this.$root.dbWatchers.push(async (change) => {
       // console.log(change)
 
       if (Notice.is(change.id)) {
         if (change.deleted) {
-
           this.notices.find((notice, index) => {
-
             if (notice && notice._id === change.id) {
               this.notices.splice(index, 1)
             }
           })
-        }
-        else {
-          await this.loadNotice(change.id.split(":")[1])
+        } else {
+          await this.loadNotice(change.id.split(':')[1])
         }
       }
     })

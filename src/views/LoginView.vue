@@ -59,7 +59,7 @@ body {
 </style>
 
 <script>
-import FooterComponent from "@/components/FooterComponent"
+import FooterComponent from "@/components/FooterComponent.vue"
 import Admin from "@/models/Admin"
 import Student from "@/models/Student"
 

@@ -33,9 +33,9 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent"
-import StudentEditorComponent from "@/components/StudentEditorComponent"
-import StudentListComponent from "@/components/StudentListComponent"
+import DashboardBaseComponent from "@/components/DashboardBaseComponent.vue"
+import StudentEditorComponent from "@/components/StudentEditorComponent.vue"
+import StudentListComponent from "@/components/StudentListComponent.vue"
 
 export default {
   name: "AdminStudentView",

@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent"
-import NoticeEditorComponent from "@/components/NoticeEditorComponent"
-import NoticeListComponent from "@/components/NoticeListComponent"
+import DashboardBaseComponent from "@/components/DashboardBaseComponent.vue"
+import NoticeEditorComponent from "@/components/NoticeEditorComponent.vue"
+import NoticeListComponent from "@/components/NoticeListComponent.vue"
 
 export default {
   name: "NoticeView",

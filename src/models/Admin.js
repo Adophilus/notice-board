@@ -1,11 +1,11 @@
-import User from "@/models/User.js"
+import User from "@/models/User"
 
 class Admin extends User {
   static idBase = "user:admin:"
   static name = "Admin"
-  static unique = [ "username", "email" ]
+  static unique = ["username", "email"]
 
-  constructor (db, { _id, _rev, username, password, email, notices }) {
+  constructor(db, { _id, _rev, username, password, email, notices }) {
     super(db, { _id, _rev, username, password, notices })
     this.fields = {
       ...this.fields,
@@ -13,7 +13,7 @@ class Admin extends User {
     }
   }
 
-  static get (db, options, raw = true, fields = [ "_id", "_rev", "username", "password", "email", "notices" ]) {
+  static get(db, options, raw = true, fields = ["_id", "_rev", "username", "password", "email", "notices"]) {
     return super.get(db, options, raw, fields)
   }
 }
