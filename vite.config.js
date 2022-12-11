@@ -8,6 +8,7 @@ export default defineConfig({
     global: {}
   },
   resolve: {
+    inherits: './inherits.js',
     alias: [
       {
         find: '@',
