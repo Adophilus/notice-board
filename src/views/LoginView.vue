@@ -146,14 +146,14 @@ export default {
         this.loginError = true
       }
     },
-
     async checkLogin() {
       const user = this.$store.getters.user
       if (user != null) {
         if (Admin.is(user._id)) {
-          return this.$router.push({ name: 'AdminDashboardView' })
+          this.$router.push({ name: 'AdminDashboardView' })
+        } else if (Student.id(user._id)) {
+          this.$router.push({ name: 'StudentDashboardView' })
         }
-        return this.$router.push({ name: 'StudentDashboardView' })
       }
     }
   },
