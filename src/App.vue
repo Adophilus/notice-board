@@ -13,7 +13,7 @@ export default {
   name: 'App',
   data() {
     return {
-      db: null,
+      db: new PouchDB('notice-board'),
       project: {
         creator: 'Valentine',
         yearCreated: 2022,
@@ -41,7 +41,6 @@ export default {
   async mounted() {
     // this.db = new PouchDB("notice-board")
     // await this.db.destroy()
-    this.db = new PouchDB('notice-board')
     this.db
       .changes({
         live: true,
