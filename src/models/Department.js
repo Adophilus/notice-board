@@ -1,20 +1,10 @@
-import Faculty from "@/models/Faculty.js"
+import db from '@/config/db'
 
-class Department extends Faculty {
-  static idBase = "department:"
-  static name = "Department"
+const schema = db.Schema({
+  name: String,
+  faculty: String,
+  code: String
+})
 
-  constructor (db, { _id, _rev, name, faculty, code }) {
-    super(db, { _id, _rev, name, code })
-    this.fields = {
-      ...this.fields,
-      faculty
-    }
-  }
-
-  static async get (db, options, raw = true, fields = [ "_id", "_rev", "name", "faculty", "code" ]) {
-    return super.get(db, options, raw, fields)
-  }
-}
-
-export default Department
+const model = db.Model('Department', schema)
+export default model

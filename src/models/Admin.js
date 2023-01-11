@@ -1,21 +1,10 @@
-import User from "@/models/User"
+import db from '@/config/db'
+import User from '@/models/User'
 
-class Admin extends User {
-  static idBase = "user:admin:"
-  static name = "Admin"
-  static unique = ["username", "email"]
+const schema = db.Schema({
+  ...User
+})
 
-  constructor(db, { _id, _rev, username, password, email, notices }) {
-    super(db, { _id, _rev, username, password, notices })
-    this.fields = {
-      ...this.fields,
-      email
-    }
-  }
+const model = db.Model('Admin', schema)
 
-  static get(db, options, raw = true, fields = ["_id", "_rev", "username", "password", "email", "notices"]) {
-    return super.get(db, options, raw, fields)
-  }
-}
-
-export default Admin
+export default model

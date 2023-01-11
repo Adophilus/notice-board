@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "moment": "^2.29.1",
+    "mongoose": "^6.8.3",
     "pouchdb": "^7.2.2",
     "pouchdb-find": "^7.2.2",
     "pouchdb-model": "^0.4.0",
