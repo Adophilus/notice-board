@@ -3,34 +3,40 @@ import Admin from '@/models/Admin'
 
 export default createStore({
   state() {
-    const localstorageUser = localStorage.getItem('user')
-    let user = null
-    if (localstorageUser)
-      user = JSON.parse(localstorageUser)
+    const localStorageToken = localStorage.getItem('token')
+    let token = null
+    if (localStorageToken)
+      token = localStorageToken
+
     return {
-      user,
-      isAdmin: user == null ? false : Admin.is(user._id)
+      token
     }
   },
   getters: {
-    isAdmin(state) {
-      return state.isAdmin
-    },
-    user(state) {
+    token(state) {
       return state.user
     }
   },
   mutations: {
-    setUser(state, user) {
-      state.user = user
-      localStorage.setItem('user', JSON.stringify(user))
-      state.isAdmin = Admin.is(user._id)
-    },
-    unsetUser(state) {
-      state.user = null
-      localStorage.removeItem('user')
+    setToken(state, { token }) {
+      state.token = token
     }
   },
-  actions: {},
+  actions: {
+    async login({ commit }, { email, password }) {
+      const res = await fetch({
+        method: 'POST',
+        body: JSON.stringify({ email, password })
+      })
+      const json = await res.json()
+      commit('user', json.user)
+      // TODO: dispatch action to `setToken`
+      commit('token', json.token)
+    },
+    setToken({ commit }, payload) {
+      localStorage.setItem('token', JSON.stringify(token))
+      commit({ type: 'setToken', payload: { token: payload } })
+    }
+  },
   modules: {}
 })
