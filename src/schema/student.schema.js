@@ -1,18 +1,20 @@
 import db from '@/config/db'
-import User from '@/models/User'
+import UserSchema from '@/schema/user.schema'
+import { deepMerge } from '@/utils/helpers'
 
-const schema = db.Schema({
-  ...User,
-  firstName: String,
-  lastName: String,
-  birthDay: Date,
-  department: String,
-  registrationNumber: Number
+export default deepMerge(UserSchema, {
+  schema: {
+    firstName: db.Schema.Types.String,
+    lastName: db.Schema.Types.String,
+    birthDay: db.Schema.Types.Date,
+    department: db.Schema.Types.String,
+    registrationNumber: db.Schema.Types.Number
+  },
+  options: {
+    statics: {
+      generateRegistrationNumber() {
+        return Date.now()
+      }
+    }
+  }
 })
-
-schema.statics.generateRegistrationNumber = () => {
-  return Date.now()
-}
-
-const model = db.Model('Student', schema)
-export default model

@@ -1,16 +1,18 @@
 import db from '@/config/db'
 
-const schema = db.Schema({
-  title: String,
-  content: String,
-  creator: String,
-  scope: 'global',
-  status: ['posted', 'unverified'],
-  created: {
-    type: Date,
-    default: () => Date.now()
-  }
-})
-
-const model = db.Model('Notice', schema)
-export default model
+export default {
+  schema: {
+    title: db.Schema.Types.String,
+    content: db.Schema.Types.String,
+    creator: db.Schema.Types.ObjectId,
+    scope: {
+      types: db.Schema.Types.String,
+      enum: ['global']
+    },
+    status: {
+      types: db.Schema.Types.String,
+      enum: ['posted', 'unverified']
+    }
+  },
+  options: { timestamps: true }
+}

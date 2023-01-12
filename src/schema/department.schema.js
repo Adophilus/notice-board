@@ -1,10 +1,12 @@
 import db from '@/config/db'
 
-const schema = db.Schema({
-  name: String,
-  faculty: String,
-  code: String
-})
-
-const model = db.Model('Department', schema)
-export default model
+export default {
+  schema: {
+    name: db.Schema.Types.String,
+    faculty: {
+      type: db.Schema.Types.ObjectId,
+      ref: 'faculty'
+    },
+    code: db.Schema.Types.String
+  }
+}

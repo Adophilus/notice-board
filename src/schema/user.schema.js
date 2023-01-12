@@ -1,12 +1,17 @@
 import db from '@/config/db'
 
-const schema = db.Schema({
-  username: String,
-  email: String,
-  password: String,
-  notices: [String]
-})
-
-const model = db.Model('User', schema)
-
-export default model
+export default {
+  schema: {
+    username: db.Schema.Types.String,
+    email: db.Schema.Types.String,
+    password: db.Schema.Types.String,
+    notices: [db.Schema.Types.String]
+  },
+  options: {
+    methods: {
+      hasPassword(password) {
+        return false
+      }
+    }
+  }
+}
