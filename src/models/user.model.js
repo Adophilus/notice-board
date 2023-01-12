@@ -1,12 +1,4 @@
 import db from '@/config/db'
+import schema from '@/schema/user.schema'
 
-const schema = db.Schema({
-  username: String,
-  email: String,
-  password: String,
-  notices: [String]
-})
-
-const model = db.Model('User', schema)
-
-export default model
+export default db.Model('User', schema)

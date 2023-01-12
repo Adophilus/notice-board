@@ -1,10 +1,4 @@
 import db from '@/config/db'
-import User from '@/models/User'
+import schema from '@/schema/admin.schema'
 
-const schema = db.Schema({
-  ...User
-})
-
-const model = db.Model('Admin', schema)
-
-export default model
+export default db.Model('Admin', schema)

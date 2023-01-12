@@ -1,10 +1,4 @@
 import db from '@/config/db'
+import schema from '@/schema/department.schema'
 
-const schema = db.Schema({
-  name: String,
-  faculty: String,
-  code: String
-})
-
-const model = db.Model('Department', schema)
-export default model
+export default db.Model('Department', schema)

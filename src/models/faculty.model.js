@@ -1,9 +1,4 @@
 import db from '@/config/db'
+import schema from '@/schema/faculty.schema'
 
-const schema = db.Schema({
-  name: String,
-  code: String
-})
-
-const model = db.Model('Faculty', schema)
-export default model
+export default db.Model('Faculty', schema)
