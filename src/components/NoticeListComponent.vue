@@ -69,7 +69,7 @@ export default {
     async loadNotice(noticeId) {
       if (!noticeId) {
         if (this.notices.length < 20) {
-          (await Notice.get(this.$root.db, { limit: 20 }))
+          ;(await Notice.get(this.$root.db, { limit: 20 }))
             .filter((notice) => {
               if (Student.is(this.$store.getters.user._id)) {
                 return notice.creator === this.$store.getters.user._id

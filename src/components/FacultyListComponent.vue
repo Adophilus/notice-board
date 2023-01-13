@@ -61,7 +61,7 @@ export default {
     async loadFaculty(facultyId) {
       if (!facultyId) {
         if (this.faculties.length < 20) {
-          (await Faculty.get(this.$root.db, { limit: 20 })).forEach(
+          ;(await Faculty.get(this.$root.db, { limit: 20 })).forEach(
             async (faculty) => {
               faculty.departments = (
                 await Department.get(this.$root.db, {

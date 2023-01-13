@@ -80,7 +80,7 @@ export default {
     async loadNotice(noticeId) {
       if (!noticeId) {
         if (this.notices.length < 20) {
-          (await Notice.get(this.$root.db, { limit: 20 }))
+          ;(await Notice.get(this.$root.db, { limit: 20 }))
             .filter((notice) => new Notice(this.db, notice).isPosted())
             .forEach(async (notice) => {
               let user = await User.get(

@@ -1,10 +1,27 @@
 <template>
-  <div class="modal fade" :id="modalClass" tabindex="-1" role="dialog" :aria-labelledby="modalClass" aria-hidden="true">
-    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+  <div
+    class="modal fade"
+    :id="modalClass"
+    tabindex="-1"
+    role="dialog"
+    :aria-labelledby="modalClass"
+    aria-hidden="true"
+  >
+    <div
+      class="modal-dialog modal- modal-dialog-centered modal-"
+      role="document"
+    >
       <div class="modal-content">
         <div class="modal-header">
-          <h6 class="modal-title font-weight-normal" id="modal-title-default">{{ title }}</h6>
-          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+          <h6 class="modal-title font-weight-normal" id="modal-title-default">
+            {{ title }}
+          </h6>
+          <button
+            type="button"
+            class="btn-close text-dark"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
             <span aria-hidden="true">×</span>
           </button>
         </div>
@@ -22,10 +39,23 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button v-show="acceptedButton" type="button" class="btn bg-gradient-primary" data-bs-dismiss="modal" @click="$emit('accepted')">
+          <button
+            v-show="acceptedButton"
+            type="button"
+            class="btn bg-gradient-primary"
+            data-bs-dismiss="modal"
+            @click="$emit('accepted')"
+          >
             {{ acceptedButton }}
           </button>
-          <button type="button" class="btn btn-link  ml-auto" data-bs-dismiss="modal" @click="$emit('declined')">{{ declinedButton }}</button>
+          <button
+            type="button"
+            class="btn btn-link ml-auto"
+            data-bs-dismiss="modal"
+            @click="$emit('declined')"
+          >
+            {{ declinedButton }}
+          </button>
         </div>
       </div>
     </div>
@@ -34,38 +64,38 @@
 
 <script>
 export default {
-  name: "ModalComponent",
-  emits: [ 'accepted', 'declined' ],
+  name: 'ModalComponent',
+  emits: ['accepted', 'declined'],
   props: {
     modalClass: {
       type: String,
-      default: "modal-default"
+      default: 'modal-default'
     },
     title: {
       type: String,
-      default: "Your attention is required"
+      default: 'Your attention is required'
     },
     header: {
-      type: String,
+      type: String
     },
     icon: {
       type: String,
-      default: "error_outline"
+      default: 'error_outline'
     },
     type: {
       type: String,
-      default: "info"
+      default: 'info'
     },
     content: {
       type: String
     },
     acceptedButton: {
       type: String,
-      default: "Ok"
+      default: 'Ok'
     },
     declinedButton: {
       type: String,
-      default: "Close"
+      default: 'Close'
     }
   }
 }

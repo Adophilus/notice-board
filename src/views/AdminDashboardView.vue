@@ -4,7 +4,9 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
+            <div
+              class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute"
+            >
               <i class="material-icons opacity-10">school</i>
             </div>
             <div class="text-end pt-1">
@@ -18,7 +20,9 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
+            <div
+              class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute"
+            >
               <i class="material-icons opacity-10">business</i>
             </div>
             <div class="text-end pt-1">
@@ -32,7 +36,9 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute">
+            <div
+              class="icon icon-lg icon-shape bg-gradient-info shadow-info text-center border-radius-xl mt-n4 position-absolute"
+            >
               <i class="material-icons opacity-10">people</i>
             </div>
             <div class="text-end pt-1">
@@ -46,7 +52,9 @@
       <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
         <div class="card">
           <div class="card-header p-3 pt-2">
-            <div class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute">
+            <div
+              class="icon icon-lg icon-shape bg-gradient-success shadow-success text-center border-radius-xl mt-n4 position-absolute"
+            >
               <i class="material-icons opacity-10">error_outline</i>
             </div>
             <div class="text-end pt-1">
@@ -63,32 +71,32 @@
 </template>
 
 <script>
-import DashboardBaseComponent from "@/components/DashboardBaseComponent.vue"
-import NoticeBoardComponent from "@/components/NoticeBoardComponent.vue"
-import Student from "@/models/Student"
-import Notice from "@/models/Notice"
-import Faculty from "@/models/Faculty"
-import Department from "@/models/Department"
+import DashboardBaseComponent from '@/components/DashboardBaseComponent.vue'
+import NoticeBoardComponent from '@/components/NoticeBoardComponent.vue'
+import Student from '@/models/Student'
+import Notice from '@/models/Notice'
+import Faculty from '@/models/Faculty'
+import Department from '@/models/Department'
 
 export default {
   name: 'AdminDashboardView',
   components: { DashboardBaseComponent, NoticeBoardComponent },
-  data () {
+  data() {
     return {
       numberNotices: 0,
       numberStudents: 0,
       numberFaculties: 0,
       numberDepartments: 0,
-      pageTitle: "Dashboard"
+      pageTitle: 'Dashboard'
     }
   },
   methods: {
     Notice,
     Student
   },
-  async mounted () {
+  async mounted() {
     if (!this.$store.getters.isAdmin) {
-      this.$router.push({ name: "LoginView" })
+      this.$router.push({ name: 'LoginView' })
     }
 
     this.numberNotices = await Notice.count(this.$root.db)

@@ -3,7 +3,9 @@
     <div class="col-12">
       <div class="card my-4">
         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-          <div class="d-flex align-items-start bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+          <div
+            class="d-flex align-items-start bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3"
+          >
             <div class="me-auto">
               <h6 class="text-white text-capitalize ps-3">Create Notice</h6>
             </div>
@@ -13,16 +15,28 @@
           <div class="p-4">
             <div class="input-group input-group-static mb-4">
               <label>Title</label>
-              <input type="text" required class="form-control" v-model="localTitle">
+              <input
+                type="text"
+                required
+                class="form-control"
+                v-model="localTitle"
+              />
             </div>
             <div class="input-group input-group-static mb-4">
               <label>Content</label>
-              <input type="text" required class="form-control" v-model="localContent">
+              <input
+                type="text"
+                required
+                class="form-control"
+                v-model="localContent"
+              />
             </div>
             <button class="btn btn-icon btn-3 btn-primary" type="submit">
               <span class="btn-inner--icon"><i class="fas fa-plus"></i></span>
               &nbsp;
-              <span v-if="$store.getters.isAdmin" class="btn-inner--text">Post</span>
+              <span v-if="$store.getters.isAdmin" class="btn-inner--text"
+                >Post</span
+              >
               <span v-else class="btn-inner--text">Create</span>
             </button>
           </div>
@@ -33,23 +47,27 @@
 </template>
 
 <script>
-import Notice from "@/models/Notice.js"
-import Admin from "@/models/Admin.js"
+import Notice from '@/models/Notice.js'
+import Admin from '@/models/Admin.js'
 
 export default {
-  name: "NoticeEditorComponent",
-  emits: [ "hide-editor" ],
-  props: [ "_id", 'title', 'content' ],
-  data () {
+  name: 'NoticeEditorComponent',
+  emits: ['hide-editor'],
+  props: ['_id', 'title', 'content'],
+  data() {
     return {
       localTitle: this.title,
       localContent: this.content
     }
   },
   methods: {
-    async postNotice () {
+    async postNotice() {
       if (this._id) {
-        let notice = await Notice.get(this.$root.db, { id: Notice.split(this._id) }, false)
+        let notice = await Notice.get(
+          this.$root.db,
+          { id: Notice.split(this._id) },
+          false
+        )
         if (notice) {
           notice.set({
             title: this.localTitle,
@@ -57,8 +75,7 @@ export default {
           })
           await notice.post()
         }
-      }
-      else {
+      } else {
         const notice = new Notice(this.$root.db, {
           title: this.localTitle,
           content: this.localContent,
@@ -67,8 +84,7 @@ export default {
         })
         if (Admin.is(this.$store.getters.user._id)) {
           await notice.post()
-        }
-        else {
+        } else {
           await notice.save()
         }
         // console.log(notice)
@@ -76,8 +92,8 @@ export default {
 
       // this.title = ""
       // this.content = ""
-    
-      this.$emit("hide-editor")
+
+      this.$emit('hide-editor')
     }
   }
 }

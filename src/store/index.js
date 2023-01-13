@@ -1,12 +1,11 @@
 import { createStore } from 'vuex'
-import Admin from '@/models/Admin'
+import Admin from '@/models/admin.model'
 
 export default createStore({
   state() {
     const localStorageToken = localStorage.getItem('token')
     let token = null
-    if (localStorageToken)
-      token = localStorageToken
+    if (localStorageToken) token = localStorageToken
 
     return {
       token
