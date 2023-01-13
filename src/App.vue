@@ -5,7 +5,7 @@
 <script>
 import PouchDB from 'pouchdb'
 import PouchdbFind from 'pouchdb-find'
-import Admin from '@/models/Admin'
+import Admin from '@/models/admin.model'
 
 PouchDB.plugin(PouchdbFind)
 

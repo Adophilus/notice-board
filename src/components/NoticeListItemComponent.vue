@@ -56,7 +56,7 @@
 
 <script>
 import moment from 'moment'
-import Notice from '@/models/Notice.js'
+import Notice from '@/models/notice.js.model'
 
 export default {
   name: 'NoticeListItemComponent',

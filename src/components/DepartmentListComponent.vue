@@ -45,7 +45,7 @@
 
 <script>
 import DepartmentListItemComponent from '@/components/DepartmentListItemComponent.vue'
-import Department from '@/models/Department'
+import Department from '@/models/department.model'
 
 export default {
   name: 'DepartmentListComponent',

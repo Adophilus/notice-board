@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import Faculty from '@/models/Faculty'
+import Faculty from '@/models/faculty.model'
 
 export default {
   name: 'FacultyEditorComponent',

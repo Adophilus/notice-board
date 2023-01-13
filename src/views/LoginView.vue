@@ -100,8 +100,8 @@ body {
 
 <script>
 import FooterComponent from '@/components/FooterComponent.vue'
-import Admin from '@/models/Admin'
-import Student from '@/models/Student'
+import Admin from '@/models/admin.model'
+import Student from '@/models/student.model'
 
 export default {
   name: 'LoginView',

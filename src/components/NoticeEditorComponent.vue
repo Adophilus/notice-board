@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import Notice from '@/models/Notice.js'
-import Admin from '@/models/Admin.js'
+import Notice from '@/models/notice.js.model'
+import Admin from '@/models/admin.js.model'
 
 export default {
   name: 'NoticeEditorComponent',

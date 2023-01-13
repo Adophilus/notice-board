@@ -48,8 +48,8 @@
 
 <script>
 import StudentListItemComponent from '@/components/StudentListItemComponent.vue'
-import Student from '@/models/Student'
-import Department from '@/models/Department'
+import Student from '@/models/student.model'
+import Department from '@/models/department.model'
 
 export default {
   name: 'StudentListComponent',

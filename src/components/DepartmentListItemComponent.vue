@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import Department from '@/models/Department'
+import Department from '@/models/department.model'
 
 export default {
   name: 'DepartmentListItemComponent',

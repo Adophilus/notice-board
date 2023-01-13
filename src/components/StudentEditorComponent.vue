@@ -115,9 +115,9 @@
 </template>
 
 <script>
-import Student from '@/models/Student.js'
-import Faculty from '@/models/Faculty.js'
-import Department from '@/models/Department.js'
+import Student from '@/models/student.js.model'
+import Faculty from '@/models/faculty.js.model'
+import Department from '@/models/department.js.model'
 
 export default {
   name: 'StudentEditorComponent',

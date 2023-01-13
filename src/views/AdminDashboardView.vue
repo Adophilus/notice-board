@@ -73,10 +73,10 @@
 <script>
 import DashboardBaseComponent from '@/components/DashboardBaseComponent.vue'
 import NoticeBoardComponent from '@/components/NoticeBoardComponent.vue'
-import Student from '@/models/Student'
-import Notice from '@/models/Notice'
-import Faculty from '@/models/Faculty'
-import Department from '@/models/Department'
+import Student from '@/models/student.model'
+import Notice from '@/models/notice.model'
+import Faculty from '@/models/faculty.model'
+import Department from '@/models/department.model'
 
 export default {
   name: 'AdminDashboardView',

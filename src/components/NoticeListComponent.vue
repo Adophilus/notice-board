@@ -52,9 +52,9 @@
 
 <script>
 import NoticeListItemComponent from '@/components/NoticeListItemComponent.vue'
-import Notice from '@/models/Notice'
-import Admin from '@/models/Admin'
-import Student from '@/models/Student'
+import Notice from '@/models/notice.model'
+import Admin from '@/models/admin.model'
+import Student from '@/models/student.model'
 
 export default {
   name: 'NoticeListComponent',

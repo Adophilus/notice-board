@@ -141,8 +141,8 @@
 <script>
 import DashboardBaseComponent from '@/components/DashboardBaseComponent.vue'
 import ModalComponent from '@/components/ModalComponent.vue'
-import Department from '@/models/Department'
-import Student from '@/models/Student'
+import Department from '@/models/department.model'
+import Student from '@/models/student.model'
 
 export default {
   name: 'StudentProfileView',

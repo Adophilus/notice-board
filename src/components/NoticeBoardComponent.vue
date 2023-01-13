@@ -60,9 +60,9 @@
 
 <script>
 import NoticeBoardItemComponent from '@/components/NoticeBoardItemComponent.vue'
-import Notice from '@/models/Notice'
-import User from '@/models/User'
-import Admin from '@/models/Admin'
+import Notice from '@/models/notice.model'
+import User from '@/models/user.model'
+import Admin from '@/models/admin.model'
 
 export default {
   name: 'NoticeBoardComponent',

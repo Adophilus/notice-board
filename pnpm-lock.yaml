@@ -7,6 +7,7 @@ specifiers:
   pouchdb: ^7.2.2
   pouchdb-find: ^7.2.2
   pouchdb-model: ^0.4.0
+  prettier: ^2.8.2
   vite: ^4.0.4
   vue: ^3.2.45
   vue-router: ^4.1.6
@@ -24,6 +25,7 @@ dependencies:
 
 devDependencies:
   '@vitejs/plugin-vue': 4.0.0_vite@4.0.4+vue@3.2.45
+  prettier: 2.8.2
   vite: 4.0.4
 
 packages:
@@ -1750,6 +1752,12 @@ packages:
     transitivePeerDependencies:
       - encoding
     dev: false
+
+  /prettier/2.8.2:
+    resolution: {integrity: sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
 
   /prr/1.0.1:
     resolution: {integrity: sha512-yPw4Sng1gWghHQWj0B3ZggWUm4qVbPwPFcRG8KyxiU7J2OHFSoEHKS+EZ3fv5l1t9CyCiop6l/ZYeWbrgoQejw==}

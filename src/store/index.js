@@ -1,5 +1,5 @@
 import { createStore } from 'vuex'
-import Admin from '@/models/admin.model'
+import Admin from '@/models/admin.model.model.model'
 
 export default createStore({
   state() {
