@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import Student from '@/models/student.js.model'
+import Student from '@/models/student.model'
 
 export default {
   name: 'StudentListItemComponent',

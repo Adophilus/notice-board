@@ -3,55 +3,12 @@
 </template>
 
 <script>
-import PouchDB from 'pouchdb'
-import PouchdbFind from 'pouchdb-find'
-import Admin from '@/models/admin.model'
-
-PouchDB.plugin(PouchdbFind)
+import config from '@/config'
 
 export default {
   name: 'App',
-  data() {
-    return {
-      db: new PouchDB('notice-board'),
-      project: {
-        creator: 'Valentine',
-        yearCreated: 2022,
-        title: 'Notice Board'
-      },
-      dbWatchers: []
-    }
-  },
-  methods: {
-    async checkInstallation() {
-      const admins = await Admin.get(this.$root.db)
-      if (admins.length === 0) {
-        const admin = new Admin(this.$root.db, {
-          username: 'admin',
-          password: 'admin@mail.com',
-          email: 'admin@mail.com'
-        })
-        await admin.save()
-      }
-    }
-  },
   created() {
-    document.title = this.project.title
-  },
-  async mounted() {
-    // this.db = new PouchDB("notice-board")
-    // await this.db.destroy()
-    this.db
-      .changes({
-        live: true,
-        since: 'now'
-        // include_docs: true
-      })
-      .on('change', (change) => {
-        this.dbWatchers.forEach((method) => method(change))
-      })
-
-    await this.checkInstallation()
+    document.title = config.app.title
   }
 }
 </script>
