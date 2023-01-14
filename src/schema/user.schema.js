@@ -1,5 +1,5 @@
 import db from '@/config/db'
-import bcrypt from 'bcrypt'
+import SHA256 from 'crypto-js/sha256'
 
 export default {
   schema: {
@@ -13,13 +13,13 @@ export default {
   },
   options: {
     statics: {
-      async hashPassword(password) {
-        return bcrypt.hashPassword(password, 10)
+      hashPassword(password) {
+        return SHA256(password).toString()
       }
     },
     methods: {
-      async hasPassword(password) {
-        return bcrypt.compare(this.password, password)
+      hasPassword(password) {
+        return this.password === this.hashPassword(password)
       }
     }
   }
